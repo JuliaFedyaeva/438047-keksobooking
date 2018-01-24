@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Yulia Fedyaeva](https://up.htmlacademy.ru/javascript/12/user/438047).
-* Наставник: `Неизвестно`.
+* Наставник: [Леонид Лебедев](https://htmlacademy.ru/profile/leonidlebedev).
 
 ---
 
