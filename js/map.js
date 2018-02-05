@@ -2,15 +2,15 @@
 
 
 var USERS = 8;
-//Закомментировла пока, потому что Трэвис матерится
-//var MIN_GUEST = 1;
-//var MAX_GUEST = 20;
+
+var MIN_GUEST = 1;
+var MAX_GUEST = 20;
 
 var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
 
-var PIN_HEIGHT = 75;
-var PIN_WIDTH = 56;
+// var PIN_HEIGHT = 75;
+// var PIN_WIDTH = 56;
 
 var MIN_QUANTITY_OF_ROOMS = 1;
 var MAX_QUANTITY_OF_ROOMS = 5;
