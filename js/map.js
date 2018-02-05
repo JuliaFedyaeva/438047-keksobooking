@@ -2,9 +2,9 @@
 
 
 var USERS = 8;
-
-var MIN_GUEST = 1;
-var MAX_GUEST = 20;
+//Закомментировла пока, потому что Трэвис матерится
+//var MIN_GUEST = 1;
+//var MAX_GUEST = 20;
 
 var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
@@ -25,7 +25,7 @@ var TYPES_OF_ROOMS = ['flat', 'house', 'bungalo'];
 var CHECK_IN_OUT = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'elevator', 'conditioner'];
 
-//Удаляем класс .map-faded
+// Удаляем класс .map-faded
 document.querySelector('section').classList.remove('map--faded');
 
 // Генерируем случайное число в диапазоне
@@ -53,7 +53,7 @@ function getRandomElement(array) {
   return randomElement;
 }
 
-//Создаем массив произвольной длины
+// Создаем массив произвольной длины
 function getArrayLength(array) {
   var clone = array.slice();
   clone.length = getRandomNumber(1, array.length);
@@ -74,7 +74,7 @@ function generateAvatars() {
   return listOfAvatars;
 }
 
-// Функция возвращает массив объектов объявлений
+// Функция возвращает массив объектов объявлений. Трэвис тоже матерится, но это пока что
 function generateAds() {
   var ads = [];
   var userAvatar = getShuffleArray(generateAvatars());
@@ -86,24 +86,24 @@ function generateAds() {
 
     ads.push({
       'author': {
-        'avatar': userAvatar[i]                           
+        'avatar': userAvatar[i]
       },
       'offer': {
-        'title': titleOfAds[i],                           
+        'title': titleOfAds[i],
         'adress': (locationX + ', ' + locationY),
-        'price': getRandomNumber(MIN_PRICE, MAX_PRICE),    
-        'type': getRandomElement(TYPES_OF_ROOMS),           
-        'rooms': getRandomNumber(MIN_QUANTITY_OF_ROOMS, MAX_QUANTITY_OF_ROOMS),    
-        'guests': getRandomNumber(MIN_GUEST, MAX_GUEST),   
-        'checkin': getRandomElement(CHECK_IN_OUT),                 
-        'checkout': getRandomElement(CHECK_IN_OUT),                
-        'features': getArrayLength(FEATURES),              
+        'price': getRandomNumber(MIN_PRICE, MAX_PRICE),
+        'type': getRandomElement(TYPES_OF_ROOMS),
+        'rooms': getRandomNumber(MIN_QUANTITY_OF_ROOMS, MAX_QUANTITY_OF_ROOMS),
+        'guests': getRandomNumber(MIN_GUEST, MAX_GUEST),
+        'checkin': getRandomElement(CHECK_IN_OUT),
+        'checkout': getRandomElement(CHECK_IN_OUT),
+        'features': getArrayLength(FEATURES),
         'description': '',
         'photos': []
       },
       'location': {
-        'x': locationX,                                    
-        'y': locationY                                     
+        'x': locationX,
+        'y': locationY
       }
     });
   }
