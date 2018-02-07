@@ -49,11 +49,11 @@ var CHECK_IN_OUT = [
 ];
 
 var FEATURES = [
-  'wifi',
-  'dishwasher',
-  'parking',
-  'elevator',
-  'conditioner'
+  ' wifi',
+  ' dishwasher',
+  ' parking',
+  ' elevator',
+  ' conditioner'
 ];
 
 var PHOTOS = [
@@ -105,7 +105,7 @@ function generateAds() {
   var titleOfAds = getRandomElement(TITLES_ADS);
 
   for (var i = 0; i < USERS; i++) {
-    var locationX = getRandomNumber(PIN.X.MIN, PIN.X.MAX;
+    var locationX = getRandomNumber(PIN.X.MIN, PIN.X.MAX);
     var locationY = getRandomNumber(PIN.Y.MIN, PIN.Y.MAX);
 
     ads.push({
@@ -208,7 +208,7 @@ var renderOfferCard = function (apartment) {
 
   offerCard.querySelector('.popup__avatar').src = apartment.author.avatar;
   offerCard.querySelector('h3').textContent = apartment.offer.title;
-  offerCard.querySelector('.popup__price').textContent = apartment.offer.price + '₽/ночь';
+  offerCard.querySelector('.popup__price').textContent = apartment.offer.price + ' ₽/ночь';
   offerCard.querySelector('h4').textContent = typeOfOffer[apartment.offer.type];
   offerCard.querySelector('.popup__features').textContent = apartment.offer.features;
 
