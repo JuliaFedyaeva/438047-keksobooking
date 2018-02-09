@@ -20,8 +20,8 @@ var PIN = {
     MIN: 100,
     MAX: 500
   },
-   HEIGHT: 75,
-   WIDTH: 56
+  HEIGHT: 75,
+  WIDTH: 56
 };
 
 var TITLES_ADS = [
@@ -128,7 +128,7 @@ function getAd(id) {
       x: locationX,
       y: locationY
     }
-  }
+  };
 }
 
 function generateAndRenderPins(pinsData) {
@@ -156,8 +156,8 @@ function getRightWordForm(num, wordForms) {
 
   if (reminderOfTen > 1 && reminderOfTen < 5) {
     index = 1;
-  } else if (reminderOfHundred > 4 && reminderOfHundred < 20 || reminderOfTen === 0 || reminderOfTen >= 5){
-      index = 2;
+  } else if (reminderOfHundred > 4 && reminderOfHundred < 20 || reminderOfTen === 0 || reminderOfTen >= 5) {
+    index = 2;
   }
   return wordForms[index];
 }
