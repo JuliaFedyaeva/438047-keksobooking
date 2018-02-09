@@ -12,17 +12,16 @@ var MIN_QUANTITY_OF_ROOMS = 1;
 var MAX_QUANTITY_OF_ROOMS = 5;
 
 var PIN = {
- X: {
-   MIN: 300,
-   MAX: 900
- },
- Y: {
-   MIN: 100,
-   MAX: 500
- },
-  HEIGHT: 75,
-  WIDTH: 56
-
+  X: {
+    MIN: 300,
+    MAX: 900
+  },
+  Y: {
+    MIN: 100,
+    MAX: 500
+  },
+   HEIGHT: 75,
+   WIDTH: 56
 };
 
 var TITLES_ADS = [
@@ -89,9 +88,9 @@ function getArraySlice(array) {
 }
 
 function getAvatarURL(id) {
-    if (id < 10) {
-      id = '0' + id;
-    }
+  if (id < 10) {
+    id = '0' + id;
+  }
   return 'img/avatars/user' + id + '.png';
 }
 
@@ -158,7 +157,7 @@ function getRightWordForm(num, wordForms) {
   if (reminderOfTen > 1 && reminderOfTen < 5) {
     index = 1;
   } else if (reminderOfHundred > 4 && reminderOfHundred < 20 || reminderOfTen === 0 || reminderOfTen >= 5){
-    index = 2;
+      index = 2;
   }
   return wordForms[index];
 }
@@ -230,6 +229,3 @@ mapHiddenOff.classList.remove('map--faded');
 
 generateAndRenderPins(adsOfUsers);
 renderOfferCard(adsOfUsers[0]);
-
-
-
