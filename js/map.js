@@ -61,6 +61,17 @@ var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
+var selectMap = document.querySelector('.map');
+var selectForm = document.querySelector('.notice__form');
+var selectFieldset = selectForm.querySelectorAll('fieldset');
+var mapPinMain = selectMap.querySelector('.map__pin--main');
+var selectCheckIn = selectForm.querySelector('#timein');
+var selectCheckOut = selectForm.querySelector('#timeout');
+var selectType = selectForm.querySelector('#type');
+var selectPrice = selectForm.querySelector('#price');
+var selectRooms = selectForm.querySelector('#room_number');
+var selectGuests = selectForm.querySelector('#capacity');
+
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -224,8 +235,48 @@ function renderOfferCard(apartment) {
 
 var adsOfUsers = generateAds(USERS);
 
-var mapHiddenOff = document.querySelector('section.map');
-mapHiddenOff.classList.remove('map--faded');
+function setAddress(x, y) {
+  var selectAddress = document.querySelector('#address');
+  selectAddress.value = x + ', ' + y;
+}
 
-generateAndRenderPins(adsOfUsers);
-renderOfferCard(adsOfUsers[0]);
+function setActiveStateOfMap() {
+  selectForm.classList.remove('notice__form--disabled');
+  selectMap.classList.remove('map--faded');
+  for (var i = 0; i < selectFieldset.length; i++) {
+    selectFieldset[i].disabled = false;
+  }
+}
+
+function setInactiveStateOfMap() {
+  selectForm.classList.add('notice__form--disabled');
+  selectMap.classList.add('map--faded');
+  for (var i = 0; i < selectFieldset.length; i++) {
+    selectFieldset[i].disabled = true;
+  }
+}
+
+function pinHandler(event) {
+  var pinLeft = event.currentTarget.offsetLeft;
+  var pinTop = event.currentTarget.offsetTop;
+  var pinX = pinLeft + PIN.WIDTH;
+  var pinY = pinTop + PIN.HEIGHT;
+
+  setAddress(pinX, pinY);
+}
+
+function setPinHandler() {
+  generateAndRenderPins(adsOfUsers);
+
+  mapPinMain.removeEventListener('mouseup', setPinHandler);
+}
+
+setInactiveStateOfMap();
+
+mapPinMain.addEventListener('mouseup', setActiveStateOfMap);
+mapPinMain.addEventListener('mouseup', setPinHandler);
+mapPinMain.addEventListener('mouseup', pinHandler);
+mapPinMain.addEventListener('mouseup', renderOfferCard(adsOfUsers[0]));
+
+//generateAndRenderPins(adsOfUsers);
+
