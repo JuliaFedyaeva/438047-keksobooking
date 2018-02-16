@@ -61,17 +61,6 @@ var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
-var selectMap = document.querySelector('.map');
-var selectForm = document.querySelector('.notice__form');
-var selectFieldset = selectForm.querySelectorAll('fieldset');
-var mapPinMain = selectMap.querySelector('.map__pin--main');
-var selectCheckIn = selectForm.querySelector('#timein');
-var selectCheckOut = selectForm.querySelector('#timeout');
-var selectType = selectForm.querySelector('#type');
-var selectPrice = selectForm.querySelector('#price');
-var selectRooms = selectForm.querySelector('#room_number');
-var selectGuests = selectForm.querySelector('#capacity');
-
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -235,12 +224,27 @@ function renderOfferCard(apartment) {
 
 var adsOfUsers = generateAds(USERS);
 
+//Задание 4.1
+
+var selectMap = document.querySelector('.map');
+var selectForm = document.querySelector('.notice__form');
+var selectFieldset = selectForm.querySelectorAll('fieldset');
+var mapPinMain = selectMap.querySelector('.map__pin--main');
+var selectAddress = selectForm.querySelector('#address');
+var selectCheckIn = selectForm.querySelector('#timein');
+var selectCheckOut = selectForm.querySelector('#timeout');
+var selectType = selectForm.querySelector('#type');
+var selectPrice = selectForm.querySelector('#price');
+var selectRooms = selectForm.querySelector('#room_number');
+var selectGuests = selectForm.querySelector('#capacity');
+var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+var ESC_KEYCODE = 27;
+
 function setAddress(x, y) {
-  var selectAddress = document.querySelector('#address');
   selectAddress.value = x + ', ' + y;
 }
 
-function setActiveStateOfMap() {
+function setActiveState() {
   selectForm.classList.remove('notice__form--disabled');
   selectMap.classList.remove('map--faded');
   for (var i = 0; i < selectFieldset.length; i++) {
@@ -248,15 +252,17 @@ function setActiveStateOfMap() {
   }
 }
 
-function setInactiveStateOfMap() {
-  selectForm.classList.add('notice__form--disabled');
-  selectMap.classList.add('map--faded');
+function setInactiveState() {
+// строчки, на случай, если вёрстка будет кем-то изменена
+//  selectForm.classList.add('notice__form--disabled');
+//  selectMap.classList.add('map--faded');
   for (var i = 0; i < selectFieldset.length; i++) {
     selectFieldset[i].disabled = true;
   }
+  setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
 }
 
-function pinHandler(event) {
+function pinMoveHandler(event) {
   var pinLeft = event.currentTarget.offsetLeft;
   var pinTop = event.currentTarget.offsetTop;
   var pinX = pinLeft + PIN.WIDTH;
@@ -265,18 +271,50 @@ function pinHandler(event) {
   setAddress(pinX, pinY);
 }
 
-function setPinHandler() {
+function pinMouseupHandler() {
+  setActiveState();
   generateAndRenderPins(adsOfUsers);
 
-  mapPinMain.removeEventListener('mouseup', setPinHandler);
+  mapPinMain.removeEventListener('mouseup', pinMouseupHandler);
 }
 
-setInactiveStateOfMap();
+setInactiveState();
 
-mapPinMain.addEventListener('mouseup', setActiveStateOfMap);
-mapPinMain.addEventListener('mouseup', setPinHandler);
-mapPinMain.addEventListener('mouseup', pinHandler);
-mapPinMain.addEventListener('mouseup', renderOfferCard(adsOfUsers[0]));
+mapPinMain.addEventListener('mouseup', pinMouseupHandler);
+mapPinMain.addEventListener('mouseup', pinMoveHandler);
+
+function removePopup() {
+  var card = document.querySelector('.map__card');
+  selectMap.removeChild(card);
+  document.removeEventListener('keydown', escPopup);
+}
+
+function escPopup(evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    removePopup();
+  }
+}
+
+function clickOnPin(evt) {
+  if (evt.currentTarget.tagName === 'BUTTON') {
+    var card = document.querySelector('.map__card');
+    if (card) {
+      removePopup();
+    }
+    var index = evt.currentTarget.id;
+    renderOfferCard(adsOfUsers[index]);
+    var buttonClose = document.querySelector('.popup__close');
+    buttonClose.addEventListener('click', removePopup);
+    document.addEventListener('keydown', escPopup);
+  }
+}
+
+for (var i = 0; i < pins.length; i++) {
+  pins[i].addEventListener('click', clickOnPin);
+}
+
+
+
 
 //generateAndRenderPins(adsOfUsers);
 
