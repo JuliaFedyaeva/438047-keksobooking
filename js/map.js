@@ -323,8 +323,8 @@ var selectSubmit = selectForm.querySelector('.form-submit');
 function error(valid, message) {
   if (valid) {
     selectGuests.setCustomValidity('');
-    } else {selectGuests.setCustomValidity(message);
   }
+  selectGuests.setCustomValidity(message);
 }
 
 function checkGuestsField() {
@@ -332,19 +332,19 @@ function checkGuestsField() {
   if (selectRooms.value === '1') {
     isValid = selectGuests.value === '1';
     error(isValid, 'Для одной комнаты один гость');
-    }
+  }
   if (selectRooms.value === '2') {
     isValid = selectGuests.value === '1' || selectGuests.value === '2';
     error(isValid, 'Для двух комнат один или два гостя');
-    }
+  }
   if (selectRooms.value === '3') {
     isValid = selectGuests.value === '1' || selectGuests.value === '2' || selectGuests.value === '3';
     error(isValid, 'Для трех комнат один, два или гостя');
-    }
+  }
   if (selectRooms.value === '100') {
     isValid = selectGuests.value === '0';
     error(isValid, 'Сто комнат не для гостей');
-    }
+  }
   return false;
 }
 
