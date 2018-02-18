@@ -225,19 +225,19 @@ function renderOfferCard(apartment) {
 
 var adsOfUsers = generateAds(USERS);
 
-//Задание 4.1
+// Задание 4.1
 
 var selectMap = document.querySelector('.map');
 var selectForm = document.querySelector('.notice__form');
 var selectFieldset = selectForm.querySelectorAll('fieldset');
 var mapPinMain = selectMap.querySelector('.map__pin--main');
 var selectAddress = selectForm.querySelector('#address');
-var selectCheckIn = selectForm.querySelector('#timein');
-var selectCheckOut = selectForm.querySelector('#timeout');
-var selectType = selectForm.querySelector('#type');
-var selectPrice = selectForm.querySelector('#price');
-var selectRooms = selectForm.querySelector('#room_number');
-var selectGuests = selectForm.querySelector('#capacity');
+// var selectCheckIn = selectForm.querySelector('#timein');
+// var selectCheckOut = selectForm.querySelector('#timeout');
+// var selectType = selectForm.querySelector('#type');
+// var selectPrice = selectForm.querySelector('#price');
+// var selectRooms = selectForm.querySelector('#room_number');
+// var selectGuests = selectForm.querySelector('#capacity');
 var ESC_KEYCODE = 27;
 
 function setAddress(x, y) {
@@ -309,9 +309,9 @@ function clickOnPin(evt) {
     removePopup();
   }
   var index = evt.currentTarget.dataset.id;
-    renderOfferCard(adsOfUsers[index]);
+  renderOfferCard(adsOfUsers[index]);
 
-    var buttonClose = selectMap.querySelector('.popup__close');
-    buttonClose.addEventListener('click', removePopup);
-    document.addEventListener('keydown', escPopup);
+  var buttonClose = selectMap.querySelector('.popup__close');
+  buttonClose.addEventListener('click', removePopup);
+  document.addEventListener('keydown', escPopup);
 }
