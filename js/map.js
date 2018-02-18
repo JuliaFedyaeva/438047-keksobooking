@@ -143,6 +143,7 @@ function generateAndRenderPins(pinsData) {
     pin.style.left = pinsData[i].location.x + 'px';
     pin.style.top = pinsData[i].location.y + 'px';
     pinImg.src = pinsData[i].author.avatar;
+    pin.dataset.id = i;
     pinsFragment.appendChild(pin);
   }
   pinsContainer.appendChild(pinsFragment);
@@ -237,7 +238,6 @@ var selectType = selectForm.querySelector('#type');
 var selectPrice = selectForm.querySelector('#price');
 var selectRooms = selectForm.querySelector('#room_number');
 var selectGuests = selectForm.querySelector('#capacity');
-var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 var ESC_KEYCODE = 27;
 
 function setAddress(x, y) {
@@ -274,8 +274,16 @@ function pinMoveHandler(event) {
 function pinMouseupHandler() {
   setActiveState();
   generateAndRenderPins(adsOfUsers);
+  addPinsHandlers();
 
   mapPinMain.removeEventListener('mouseup', pinMouseupHandler);
+}
+
+function addPinsHandlers() {
+  var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  for (var i = 0; i < pins.length; i++) {
+    pins[i].addEventListener('click', clickOnPin);
+  }
 }
 
 setInactiveState();
@@ -284,7 +292,7 @@ mapPinMain.addEventListener('mouseup', pinMouseupHandler);
 mapPinMain.addEventListener('mouseup', pinMoveHandler);
 
 function removePopup() {
-  var card = document.querySelector('.map__card');
+  var card = selectMap.querySelector('.map__card');
   selectMap.removeChild(card);
   document.removeEventListener('keydown', escPopup);
 }
@@ -296,25 +304,14 @@ function escPopup(evt) {
 }
 
 function clickOnPin(evt) {
-  if (evt.currentTarget.tagName === 'BUTTON') {
-    var card = document.querySelector('.map__card');
-    if (card) {
-      removePopup();
-    }
-    var index = evt.currentTarget.id;
+  var popup = selectMap.querySelector('.map__card');
+  if (popup) {
+    removePopup();
+  }
+  var index = evt.currentTarget.dataset.id;
     renderOfferCard(adsOfUsers[index]);
-    var buttonClose = document.querySelector('.popup__close');
+
+    var buttonClose = selectMap.querySelector('.popup__close');
     buttonClose.addEventListener('click', removePopup);
     document.addEventListener('keydown', escPopup);
-  }
 }
-
-for (var i = 0; i < pins.length; i++) {
-  pins[i].addEventListener('click', clickOnPin);
-}
-
-
-
-
-//generateAndRenderPins(adsOfUsers);
-
