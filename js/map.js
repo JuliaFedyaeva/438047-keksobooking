@@ -232,12 +232,6 @@ var selectForm = document.querySelector('.notice__form');
 var selectFieldset = selectForm.querySelectorAll('fieldset');
 var mapPinMain = selectMap.querySelector('.map__pin--main');
 var selectAddress = selectForm.querySelector('#address');
-// var selectCheckIn = selectForm.querySelector('#timein');
-// var selectCheckOut = selectForm.querySelector('#timeout');
-// var selectType = selectForm.querySelector('#type');
-// var selectPrice = selectForm.querySelector('#price');
-// var selectRooms = selectForm.querySelector('#room_number');
-// var selectGuests = selectForm.querySelector('#capacity');
 var ESC_KEYCODE = 27;
 
 function setAddress(x, y) {
@@ -315,3 +309,70 @@ function clickOnPin(evt) {
   buttonClose.addEventListener('click', removePopup);
   document.addEventListener('keydown', escPopup);
 }
+
+// Задание 4.2
+
+var selectCheckIn = selectForm.querySelector('#timein');
+var selectCheckOut = selectForm.querySelector('#timeout');
+var selectType = selectForm.querySelector('#type');
+var selectPrice = selectForm.querySelector('#price');
+var selectRooms = selectForm.querySelector('#room_number');
+var selectGuests = selectForm.querySelector('#capacity');
+var selectSubmit = selectForm.querySelector('.form-submit');
+
+function error(valid, message) {
+  if (valid) {
+    selectGuests.setCustomValidity('');
+    } else {selectGuests.setCustomValidity(message);
+  }
+}
+
+function checkGuestsField() {
+  var isValid = selectGuests.validity.valid;
+  if (selectRooms.value === '1') {
+    isValid = selectGuests.value === '1';
+    error(isValid, 'Для одной комнаты один гость');
+    }
+  if (selectRooms.value === '2') {
+    isValid = selectGuests.value === '1' || selectGuests.value === '2';
+    error(isValid, 'Для двух комнат один или два гостя');
+    }
+  if (selectRooms.value === '3') {
+    isValid = selectGuests.value === '1' || selectGuests.value === '2' || selectGuests.value === '3';
+    error(isValid, 'Для трех комнат один, два или гостя');
+    }
+  if (selectRooms.value === '100') {
+    isValid = selectGuests.value === '0';
+    error(isValid, 'Сто комнат не для гостей');
+    }
+  return false;
+}
+
+selectType.addEventListener('change', function () {
+  if (selectType.value === 'flat') {
+    selectPrice.setAttribute('min', '1000');
+    selectPrice.placeholder = '1000';
+  }
+  if (selectType.value === 'bungalo') {
+    selectPrice.setAttribute('min', '0');
+    selectPrice.placeholder = '0';
+  }
+  if (selectType.value === 'house') {
+    selectPrice.min = '5000';
+    selectPrice.placeholder = '5000';
+  }
+  if (selectType.value === 'palace') {
+    selectPrice.setAttribute('min', '10000');
+    selectPrice.placeholder = '10000';
+  }
+});
+
+selectCheckIn.addEventListener('change', function () {
+  selectCheckOut.value = selectCheckIn.value;
+});
+
+selectCheckOut.addEventListener('change', function () {
+  selectCheckIn.value = selectCheckOut.value;
+});
+
+selectSubmit.addEventListener('click', checkGuestsField);
