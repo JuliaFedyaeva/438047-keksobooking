@@ -143,6 +143,7 @@ function generateAndRenderPins(pinsData) {
     pin.style.left = pinsData[i].location.x + 'px';
     pin.style.top = pinsData[i].location.y + 'px';
     pinImg.src = pinsData[i].author.avatar;
+    pin.dataset.id = i;
     pinsFragment.appendChild(pin);
   }
   pinsContainer.appendChild(pinsFragment);
@@ -224,8 +225,93 @@ function renderOfferCard(apartment) {
 
 var adsOfUsers = generateAds(USERS);
 
-var mapHiddenOff = document.querySelector('section.map');
-mapHiddenOff.classList.remove('map--faded');
+// Задание 4.1
 
-generateAndRenderPins(adsOfUsers);
-renderOfferCard(adsOfUsers[0]);
+var selectMap = document.querySelector('.map');
+var selectForm = document.querySelector('.notice__form');
+var selectFieldset = selectForm.querySelectorAll('fieldset');
+var mapPinMain = selectMap.querySelector('.map__pin--main');
+var selectAddress = selectForm.querySelector('#address');
+// var selectCheckIn = selectForm.querySelector('#timein');
+// var selectCheckOut = selectForm.querySelector('#timeout');
+// var selectType = selectForm.querySelector('#type');
+// var selectPrice = selectForm.querySelector('#price');
+// var selectRooms = selectForm.querySelector('#room_number');
+// var selectGuests = selectForm.querySelector('#capacity');
+var ESC_KEYCODE = 27;
+
+function setAddress(x, y) {
+  selectAddress.value = x + ', ' + y;
+}
+
+function setActiveState() {
+  selectForm.classList.remove('notice__form--disabled');
+  selectMap.classList.remove('map--faded');
+  for (var i = 0; i < selectFieldset.length; i++) {
+    selectFieldset[i].disabled = false;
+  }
+}
+
+function setInactiveState() {
+// строчки, на случай, если вёрстка будет кем-то изменена
+//  selectForm.classList.add('notice__form--disabled');
+//  selectMap.classList.add('map--faded');
+  for (var i = 0; i < selectFieldset.length; i++) {
+    selectFieldset[i].disabled = true;
+  }
+  setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
+}
+
+function pinMoveHandler(event) {
+  var pinLeft = event.currentTarget.offsetLeft;
+  var pinTop = event.currentTarget.offsetTop;
+  var pinX = pinLeft + PIN.WIDTH;
+  var pinY = pinTop + PIN.HEIGHT;
+
+  setAddress(pinX, pinY);
+}
+
+function pinMouseupHandler() {
+  setActiveState();
+  generateAndRenderPins(adsOfUsers);
+  addPinsHandlers();
+
+  mapPinMain.removeEventListener('mouseup', pinMouseupHandler);
+}
+
+function addPinsHandlers() {
+  var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  for (var i = 0; i < pins.length; i++) {
+    pins[i].addEventListener('click', clickOnPin);
+  }
+}
+
+setInactiveState();
+
+mapPinMain.addEventListener('mouseup', pinMouseupHandler);
+mapPinMain.addEventListener('mouseup', pinMoveHandler);
+
+function removePopup() {
+  var card = selectMap.querySelector('.map__card');
+  selectMap.removeChild(card);
+  document.removeEventListener('keydown', escPopup);
+}
+
+function escPopup(evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    removePopup();
+  }
+}
+
+function clickOnPin(evt) {
+  var popup = selectMap.querySelector('.map__card');
+  if (popup) {
+    removePopup();
+  }
+  var index = evt.currentTarget.dataset.id;
+  renderOfferCard(adsOfUsers[index]);
+
+  var buttonClose = selectMap.querySelector('.popup__close');
+  buttonClose.addEventListener('click', removePopup);
+  document.addEventListener('keydown', escPopup);
+}
