@@ -241,7 +241,6 @@ function setAddress(x, y) {
 function setActiveState() {
   selectForm.classList.remove('notice__form--disabled');
   selectMap.classList.remove('map--faded');
-  
   for (var i = 0; i < selectFieldset.length; i++) {
     selectFieldset[i].disabled = false;
   }
@@ -436,7 +435,6 @@ var bottomMapBorder = selectMap.clientHeight - MAIN_PIN_RADIUS - PIN_BOTTOM_PART
 var topMapBorder = MAP_TOP_LIMIT - MAIN_PIN_RADIUS;
 
 
-
 mapPinMain.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
 
@@ -465,8 +463,8 @@ mapPinMain.addEventListener('mousedown', function (evt) {
     }
 
     setAddress(
-      mapPinMain.offsetLeft + MAIN_PIN_RADIUS,
-      mapPinMain.offsetTop + MAIN_PIN_RADIUS + PIN_BOTTOM_PART);
+        mapPinMain.offsetLeft + MAIN_PIN_RADIUS,
+        mapPinMain.offsetTop + MAIN_PIN_RADIUS + PIN_BOTTOM_PART);
   };
 
   var onMouseUp = function (upEvt) {
