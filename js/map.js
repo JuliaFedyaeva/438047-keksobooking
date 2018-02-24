@@ -241,6 +241,7 @@ function setAddress(x, y) {
 function setActiveState() {
   selectForm.classList.remove('notice__form--disabled');
   selectMap.classList.remove('map--faded');
+  
   for (var i = 0; i < selectFieldset.length; i++) {
     selectFieldset[i].disabled = false;
   }
@@ -280,6 +281,7 @@ function pinMouseupHandler() {
 
 function addPinsHandlers() {
   var pins = selectMap.querySelectorAll('.map__pin:not(.map__pin--main)');
+
   for (var i = 0; i < pins.length; i++) {
     pins[i].addEventListener('click', clickOnPin);
   }
@@ -287,9 +289,10 @@ function addPinsHandlers() {
 
 function removePopup() {
   var card = selectMap.querySelector('.map__card');
-  if (card){
-  selectMap.removeChild(card);
-  document.removeEventListener('keydown', escPopup);
+
+  if (card) {
+    selectMap.removeChild(card);
+    document.removeEventListener('keydown', escPopup);
   }
 }
 
@@ -301,9 +304,11 @@ function escPopup(evt) {
 
 function clickOnPin(evt) {
   var popup = selectMap.querySelector('.map__card');
+
   if (popup) {
     removePopup();
   }
+
   var index = evt.currentTarget.dataset.id;
   renderOfferCard(adsOfUsers[index]);
 
@@ -345,17 +350,20 @@ function checkGuestsField() {
       notForGuests.disabled = true;
       return;
     }
+
     case '2': {
       selectGuests.value = '2';
       threeGuests.disabled = true;
       notForGuests.disabled = true;
       return;
     }
+
     case '3': {
       selectGuests.value = '3';
       notForGuests.disabled = true;
       return;
     }
+
     case '100': {
       selectGuests.value = '0';
       oneGuest.disabled = true;
@@ -367,7 +375,7 @@ function checkGuestsField() {
 }
 
 selectType.addEventListener('change', function (event) {
-  var minPrice = event.target.querySelector('option[value=' + event.target.value +']').dataset.min;
+  var minPrice = event.target.querySelector('option[value=' + event.target.value + ']').dataset.min;
 
   selectPrice.setAttribute('min', minPrice);
   selectPrice.placeholder = minPrice;
@@ -384,22 +392,23 @@ selectCheckOut.addEventListener('change', function () {
 
 function removePins() {
   var pins = selectMap.querySelectorAll('.map__pin:not(.map__pin--main)');
-  if (pins.length === 0) {
-  return;
- }
 
- for (var i = 0; i < pins.length; i++) {
-  pins[i].remove();
+  if (pins.length === 0) {
+    return;
+  }
+
+  for (var i = 0; i < pins.length; i++) {
+    pins[i].remove();
   }
 }
 
 
 function setDefaultValueForm() {
- var DEFAULT = {
-   TYPE: 'flat',
-   TIME: '12:00',
-   ROOMS: '1'
- };
+  var DEFAULT = {
+    TYPE: 'flat',
+    TIME: '12:00',
+    ROOMS: '1'
+  };
 
   selectType.value = DEFAULT.TYPE;
   selectCheckIn.value = DEFAULT.TIME;
@@ -435,38 +444,39 @@ mapPinMain.addEventListener('mousedown', function (evt) {
     x: evt.target.parentElement.clientX,
     y: evt.target.parentElement.clientY
   };
+
   var onMouseMove = function (moveEvt) {
-  var shift = {
-    x: startCoords.x - moveEvt.clientX,
-    y: startCoords.y - moveEvt.clientY
-  };
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
 
-  startCoords = {
-     x: moveEvt.clientX,
-     y: moveEvt.clientY
-  };
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
 
-  if (mapPinMain.offsetTop - shift.y < bottomMapBorder && mapPinMain.offsetTop - shift.y > topMapBorder) {
-    mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
-  }
+    if (mapPinMain.offsetTop - shift.y < bottomMapBorder && mapPinMain.offsetTop - shift.y > topMapBorder) {
+      mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
+    }
 
-  if (mapPinMain.offsetLeft - shift.x > leftMapBorder && mapPinMain.offsetLeft - shift.x < rightMapBorder) {
-    mapPinMain.style.left = mapPinMain.offsetLeft - shift.x + 'px';
-  }
+    if (mapPinMain.offsetLeft - shift.x > leftMapBorder && mapPinMain.offsetLeft - shift.x < rightMapBorder) {
+      mapPinMain.style.left = mapPinMain.offsetLeft - shift.x + 'px';
+    }
 
-  setAddress(
-    mapPinMain.offsetLeft + MAIN_PIN_RADIUS,
-    mapPinMain.offsetTop + MAIN_PIN_RADIUS + PIN_BOTTOM_PART);
+    setAddress(
+      mapPinMain.offsetLeft + MAIN_PIN_RADIUS,
+      mapPinMain.offsetTop + MAIN_PIN_RADIUS + PIN_BOTTOM_PART);
   };
 
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
-    };
+  };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
 });
 
 
