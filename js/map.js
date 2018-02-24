@@ -326,8 +326,6 @@ var selectRooms = selectForm.querySelector('#room_number');
 var selectGuests = selectForm.querySelector('#capacity');
 var selectSubmit = selectForm.querySelector('.form__submit');
 var selectNoticeForm = document.querySelector('.notice__form');
-var selectFormTitleField = selectNoticeForm.querySelector('#title');
-var selectFormDescriptionField = selectNoticeForm.querySelector('#description');
 var selectFormReset = selectNoticeForm.querySelector('.form__reset');
 
 
@@ -403,19 +401,7 @@ function removePins() {
 
 
 function setDefaultValueForm() {
-  var DEFAULT = {
-    TYPE: 'flat',
-    TIME: '12:00',
-    ROOMS: '1'
-  };
-
-  selectType.value = DEFAULT.TYPE;
-  selectCheckIn.value = DEFAULT.TIME;
-  selectRooms.value = DEFAULT.ROOMS;
-
-  selectPrice.value = '';
-  selectFormTitleField.value = '';
-  selectFormDescriptionField.value = '';
+  selectForm.reset();
   removePopup();
   removePins();
   checkGuestsField();
@@ -484,5 +470,5 @@ mapPinMain.addEventListener('mouseup', pinMoveHandler);
 
 selectRooms.addEventListener('change', checkGuestsField);
 selectSubmit.addEventListener('click', checkGuestsField);
-selectSubmit.addEventListener('submit', setDefaultValueForm);
+selectForm.addEventListener('submit', setDefaultValueForm);
 selectFormReset.addEventListener('click', setDefaultValueForm);
