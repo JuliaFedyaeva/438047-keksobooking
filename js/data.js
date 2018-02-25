@@ -2,11 +2,13 @@
 
 (function() {
 
-  function window.data.getRandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+  window.data ={
 
-  function window.data.getShuffleArray(array) {
+    getRandomNumber: function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  },
+
+    getShuffleArray: function getShuffleArray(array) {
     var copyArray = array.slice();
 
     for (var i = copyArray.length - 1; i > 0; i--) {
@@ -16,23 +18,24 @@
       copyArray[randomIndex] = tempValue;
     }
     return copyArray;
-  }
+  },
 
-  function window.data.getRandomElement(array) {
+    getRandomElement: function getRandomElement(array) {
     var randomIndex = Math.floor(Math.random() * array.length);
     return array[randomIndex];
-  }
+  },
 
-  function window.data.getArraySlice(array) {
+    getArraySlice: function getArraySlice(array) {
     var randomIndex = Math.floor(Math.random() * (array.length + 1));
     return array.slice(randomIndex, array.length);
-  }
+  },
 
-  function window.data.getAvatarURL(id) {
+    getAvatarURL: function getAvatarURL(id) {
     if (id < 10) {
       id = '0' + id;
     }
     return 'img/avatars/user' + id + '.png';
   }
 
+};
 })();

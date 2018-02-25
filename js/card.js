@@ -135,8 +135,8 @@
     liFragment.appendChild(newElement);
     return liFragment;
   }
-
-  function window.card.renderOfferCard(apartment) {
+  window.card ={
+    renderOfferCard: function renderOfferCard(apartment) {
     var containerElement = document.querySelector('.map__filters-container');
     var cardTemplate = document.querySelector('template').content.querySelector('.map__card');
     var offerCard = cardTemplate.cloneNode(true);
@@ -173,8 +173,10 @@
     renderApartmentPhoto(picturesContainer, apartment.offer.photos);
 
     containerElement.parentNode.insertBefore(offerCard, containerElement);
-  }
+  },
 
-  var window.card.adsOfUsers = generateAds(USERS);
+    adsOfUsers: generateAds(USERS)
+};
+
 
 })();

@@ -11,8 +11,8 @@
   var selectNoticeForm = document.querySelector('.notice__form');
   var selectFormReset = selectNoticeForm.querySelector('.form__reset');
 
-
-  function window.form.checkGuestsField() {
+  window.form ={
+    checkGuestsField: function checkGuestsField() {
     var threeGuests = selectGuests.options[0];
     var twoGuests = selectGuests.options[1];
     var oneGuest = selectGuests.options[2];
@@ -53,6 +53,7 @@
       }
     }
   }
+};
 
   selectType.addEventListener('change', function (event) {
     var minPrice = event.target.querySelector('option[value=' + event.target.value + ']').dataset.min;
