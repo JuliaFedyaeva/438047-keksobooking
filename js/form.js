@@ -1,6 +1,9 @@
 'use strict';
 
 (function() {
+  var selectMap = document.querySelector('.map');
+  var selectForm = document.querySelector('.notice__form');
+  var mapPinMain = selectMap.querySelector('.map__pin--main');
   var selectCheckIn = selectForm.querySelector('#timein');
   var selectCheckOut = selectForm.querySelector('#timeout');
   var selectType = selectForm.querySelector('#type');
@@ -88,7 +91,7 @@
     selectForm.reset();
     window.map.removePopup();
     removePins();
-    checkGuestsField();
+    window.form.checkGuestsField();
     window.map.setInactiveState();
   }
 
@@ -152,8 +155,8 @@
 
   mapPinMain.addEventListener('mouseup', window.map.pinMoveHandler);
 
-  selectRooms.addEventListener('change', checkGuestsField);
-  selectSubmit.addEventListener('click', checkGuestsField);
+  selectRooms.addEventListener('change', window.form.checkGuestsField);
+  selectSubmit.addEventListener('click', window.form.checkGuestsField);
   selectForm.addEventListener('submit', setDefaultValueForm);
   selectFormReset.addEventListener('click', setDefaultValueForm);
 

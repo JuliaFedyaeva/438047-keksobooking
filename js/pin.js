@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
 (function() {
   window.pin ={
-    
+
     generateAndRenderPins: function generateAndRenderPins(pinsData) {
     var pinsContainer = document.querySelector('.map__pins');
     var pinsFragment = document.createDocumentFragment();

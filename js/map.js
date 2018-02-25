@@ -37,7 +37,7 @@
     }
 
     mapPinMain.removeAttribute('style');
-    setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
+      window.map.setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
     mapPinMain.addEventListener('mouseup', pinMouseupHandler);
   },
 
@@ -56,7 +56,7 @@
     var pinX = pinLeft + PIN.WIDTH;
     var pinY = pinTop + PIN.HEIGHT;
 
-    setAddress(pinX, pinY);
+    window.map.setAddress(pinX, pinY);
   }
 
 
@@ -65,7 +65,7 @@
 
   function pinMouseupHandler() {
     window.map.setActiveState();
-    window.pin.generateAndRenderPins(adsOfUsers);
+    window.pin.generateAndRenderPins(window.card.adsOfUsers);
     addPinsHandlers();
 
     mapPinMain.removeEventListener('mouseup', pinMouseupHandler);
@@ -83,7 +83,7 @@
 
   function escPopup(evt) {
     if (evt.keyCode === ESC_KEYCODE) {
-      removePopup();
+      window.map.removePopup();
     }
   }
 
@@ -91,14 +91,14 @@
     var popup = selectMap.querySelector('.map__card');
 
     if (popup) {
-      removePopup();
+      window.map.removePopup();
     }
 
     var index = evt.currentTarget.dataset.id;
     window.card.renderOfferCard(window.card.adsOfUsers[index]);
 
     var buttonClose = selectMap.querySelector('.popup__close');
-    buttonClose.addEventListener('click', removePopup);
+    buttonClose.addEventListener('click', window.map.removePopup);
     document.addEventListener('keydown', escPopup);
   }
 
