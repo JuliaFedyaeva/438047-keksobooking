@@ -16,6 +16,7 @@
   var selectSubmit = selectForm.querySelector('.form__submit');
   var selectNoticeForm = document.querySelector('.notice__form');
   var selectFormReset = selectNoticeForm.querySelector('.form__reset');
+  var selectTitle = selectForm.querySelector('#title');
 
   function checkGuestsField() {
     var threeGuests = selectGuests.options[0];
@@ -153,6 +154,11 @@
   selectRooms.addEventListener('change', checkGuestsField);
   selectSubmit.addEventListener('click', checkGuestsField);
   selectFormReset.addEventListener('click', setDefaultValueForm);
+
+  selectNoticeForm.addEventListener('submit', function (evt) {
+    window.backend.saveForm(new FormData(selectNoticeForm), selectNoticeForm.reset(), window.backend.getErrorRequest);
+    evt.preventDefault();
+  });
 
   window.form = {
     checkGuestsField: checkGuestsField

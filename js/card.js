@@ -3,14 +3,23 @@
 (function () {
   var utils = window.utils;
   var CONFIG = window.CONFIG;
+  var ads = [];
 
-  function generateAds() {
-    var ads = [];
+//  function generateAds() {
+// var ads = [];
 
-    for (var i = 0; i < CONFIG.USERS; i++) {
-      ads.push(getAd(i));
+//    for (var i = 0; i < CONFIG.USERS; i++) {
+//      ads.push(getAd(i));
+//    }
+//    return ads;
+//  }
+
+  function generateAds(data) {
+    ads = data;
+    for (var i = 0; i < ads.length; i++) {
+      ads[i].id = i;
     }
-    return ads;
+    window.pin.generateAndRenderPins(ads);
   }
 
   function getAvatarURL(id) {
@@ -121,6 +130,8 @@
 
     containerElement.parentNode.insertBefore(offerCard, containerElement);
   }
+
+  window.backend.loadData(generateAds, window.backend.getErrorRequest);
 
   window.card = {
     renderOfferCard: renderOfferCard,

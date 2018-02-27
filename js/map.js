@@ -56,7 +56,8 @@
 
   function pinMouseupHandler() {
     setActiveState();
-    window.pin.generateAndRenderPins(window.card.adsOfUsers);
+//    window.pin.generateAndRenderPins(window.card.adsOfUsers);
+    window.backend.loadData(window.pin.generateAndRenderPins, window.backend.getErrorRequest);
     addPinsHandlers();
 
     mapPinMain.removeEventListener('mouseup', pinMouseupHandler);
