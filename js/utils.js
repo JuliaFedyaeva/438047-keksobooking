@@ -2,13 +2,11 @@
 
 (function() {
 
-  window.data ={
-
-    getRandomNumber: function getRandomNumber(min, max) {
+  function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
-  },
+  }
 
-    getShuffleArray: function getShuffleArray(array) {
+  function getShuffleArray(array) {
     var copyArray = array.slice();
 
     for (var i = copyArray.length - 1; i > 0; i--) {
@@ -18,24 +16,35 @@
       copyArray[randomIndex] = tempValue;
     }
     return copyArray;
-  },
-
-    getRandomElement: function getRandomElement(array) {
-    var randomIndex = Math.floor(Math.random() * array.length);
-    return array[randomIndex];
-  },
-
-    getArraySlice: function getArraySlice(array) {
-    var randomIndex = Math.floor(Math.random() * (array.length + 1));
-    return array.slice(randomIndex, array.length);
-  },
-
-    getAvatarURL: function getAvatarURL(id) {
-    if (id < 10) {
-      id = '0' + id;
-    }
-    return 'img/avatars/user' + id + '.png';
   }
 
-};
+  function getRandomElement(array) {
+    var randomIndex = Math.floor(Math.random() * array.length);
+    return array[randomIndex];
+  }
+
+  function getArraySlice(array) {
+    var randomIndex = Math.floor(Math.random() * (array.length + 1));
+    return array.slice(randomIndex, array.length);
+  }
+
+  function isEscEvent(evt, action) {
+    if (evt.keycode === window.CONFIG.KEY_CODES.ESC) {
+      action();
+    }
+  }
+
+  window.utils ={
+
+    getRandomNumber: getRandomNumber,
+
+    getShuffleArray: getShuffleArray,
+
+    getRandomElement: getRandomElement,
+
+    getArraySlice: getArraySlice,
+
+    isEscEvent: isEscEvent
+
+  };
 })();

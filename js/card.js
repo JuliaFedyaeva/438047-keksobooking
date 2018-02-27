@@ -1,98 +1,45 @@
 'use strict';
 
 (function() {
-
-  var USERS = 8;
-
-  var MIN_GUEST = 1;
-  var MAX_GUEST = 20;
-
-  var MIN_PRICE = 1000;
-  var MAX_PRICE = 1000000;
-
-  var MIN_QUANTITY_OF_ROOMS = 1;
-  var MAX_QUANTITY_OF_ROOMS = 5;
-
-  var PIN = {
-    X: {
-      MIN: 300,
-      MAX: 900
-    },
-    Y: {
-      MIN: 100,
-      MAX: 500
-    },
-    HEIGHT: 75,
-    WIDTH: 56
-  };
-
-  var TITLES_ADS = [
-    'Большая уютная квартира',
-    'Маленькая неуютная квартира',
-    'Огромный прекрасный дворец',
-    'Маленький ужасный дворец',
-    'Красивый гостевой домик',
-    'Некрасивый негостеприимный домик',
-    'Уютное бунгало далеко от моря',
-    'Неуютное бунгало по колено в воде'
-  ];
-
-  var TYPES_OF_ROOMS = [
-    'flat',
-    'house',
-    'bungalo'
-  ];
-
-  var CHECK_IN_OUT_TIME = [
-    '12:00',
-    '13:00',
-    '14:00'
-  ];
-
-  var FEATURES = [
-    'wifi',
-    'dishwasher',
-    'parking',
-    'elevator',
-    'conditioner'
-  ];
-
-  var PHOTOS = [
-    'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-    'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-    'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
-  ];
-
+  var utils = window.utils;
+  var CONFIG = window.CONFIG;
 
   function generateAds() {
     var ads = [];
 
-    for (var i = 0; i < USERS; i++) {
+    for (var i = 0; i < CONFIG.USERS; i++) {
       ads.push(getAd(i));
     }
     return ads;
   }
 
+  function getAvatarURL(id) {
+    if (id < 10) {
+      id = '0' + id;
+    }
+    return 'img/avatars/user' + id + '.png';
+  }
+
   function getAd(id) {
-    var locationX = window.data.getRandomNumber(PIN.X.MIN, PIN.X.MAX);
-    var locationY = window.data.getRandomNumber(PIN.Y.MIN, PIN.Y.MAX);
+    var locationX = utils.getRandomNumber(CONFIG.PIN.X.MIN, CONFIG.PIN.X.MAX);
+    var locationY = utils.getRandomNumber(CONFIG.PIN.Y.MIN, CONFIG.PIN.Y.MAX);
 
     return {
       author: {
-        avatar: window.data.getAvatarURL(id + 1)
+        avatar: getAvatarURL(id + 1)
       },
       offer: {
-        title: window.data.getRandomElement(TITLES_ADS),
+        title: window.utils.getRandomElement(CONFIG.TITLES_ADS),
         address: (locationX + ', ' + locationY),
-        price: window.data.getRandomNumber(MIN_PRICE, MAX_PRICE),
-        type: window.data.getRandomElement(TYPES_OF_ROOMS),
-        rooms: window.data.getRandomNumber(MIN_QUANTITY_OF_ROOMS, MAX_QUANTITY_OF_ROOMS),
-        guests: window.data.getRandomNumber(MIN_GUEST, MAX_GUEST),
-        checkin: window.data.getRandomElement(CHECK_IN_OUT_TIME),
-        checkout: window.data.getRandomElement(CHECK_IN_OUT_TIME),
-        features: window.data.getArraySlice(FEATURES),
+        price: window.utils.getRandomNumber(CONFIG.MIN_PRICE, CONFIG.MAX_PRICE),
+        type: window.utils.getRandomElement(CONFIG.TYPES_OF_ROOMS),
+        rooms: window.utils.getRandomNumber(CONFIG.MIN_QUANTITY_OF_ROOMS, CONFIG.MAX_QUANTITY_OF_ROOMS),
+        guests: window.utils.getRandomNumber(CONFIG.MIN_GUEST, CONFIG.MAX_GUEST),
+        checkin: window.utils.getRandomElement(CONFIG.CHECK_IN_OUT_TIME),
+        checkout: window.utils.getRandomElement(CONFIG.CHECK_IN_OUT_TIME),
+        features: window.utils.getArraySlice(CONFIG.FEATURES),
         description: '',
-        photos: window.data.getShuffleArray(PHOTOS)
+        photos: window.utils.getShuffleArray(CONFIG.PHOTOS)
       },
       location: {
         x: locationX,
@@ -135,8 +82,8 @@
     liFragment.appendChild(newElement);
     return liFragment;
   }
-  window.card ={
-    renderOfferCard: function renderOfferCard(apartment) {
+
+  function renderOfferCard(apartment) {
     var containerElement = document.querySelector('.map__filters-container');
     var cardTemplate = document.querySelector('template').content.querySelector('.map__card');
     var offerCard = cardTemplate.cloneNode(true);
@@ -173,9 +120,11 @@
     renderApartmentPhoto(picturesContainer, apartment.offer.photos);
 
     containerElement.parentNode.insertBefore(offerCard, containerElement);
-  },
+  }
 
-    adsOfUsers: generateAds(USERS)
+  window.card = {
+    renderOfferCard: renderOfferCard,
+    adsOfUsers: generateAds(CONFIG.USERS)
 };
 
 

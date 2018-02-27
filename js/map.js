@@ -2,32 +2,27 @@
 
 (function() {
 
-  var PIN = {
-    HEIGHT: 75,
-    WIDTH: 56
-  };
+  var PIN = window.CONFIG.PIN;
 
   var selectMap = document.querySelector('.map');
   var selectForm = document.querySelector('.notice__form');
   var selectFieldset = selectForm.querySelectorAll('fieldset');
   var mapPinMain = selectMap.querySelector('.map__pin--main');
   var selectAddress = selectForm.querySelector('#address');
-  var ESC_KEYCODE = 27;
 
-  window.map ={
-    setAddress: function setAddress(x, y) {
+  function setAddress(x, y) {
     selectAddress.value = x + ', ' + y;
-  },
+  }
 
-    setActiveState: function setActiveState() {
+  function setActiveState() {
     selectForm.classList.remove('notice__form--disabled');
     selectMap.classList.remove('map--faded');
     for (var i = 0; i < selectFieldset.length; i++) {
       selectFieldset[i].disabled = false;
     }
-  },
+  }
 
-    setInactiveState: function setInactiveState() {
+  function setInactiveState() {
 
     selectForm.classList.add('notice__form--disabled');
     selectMap.classList.add('map--faded');
@@ -37,34 +32,30 @@
     }
 
     mapPinMain.removeAttribute('style');
-      window.map.setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
+    setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
     mapPinMain.addEventListener('mouseup', pinMouseupHandler);
-  },
+  }
 
-    removePopup: function removePopup() {
+  function removePopup() {
     var card = selectMap.querySelector('.map__card');
 
     if (card) {
       selectMap.removeChild(card);
       document.removeEventListener('keydown', escPopup);
     }
-  },
+  }
 
-    pinMoveHandler: function pinMoveHandler(event) {
+  function pinMoveHandler(event) {
     var pinLeft = event.currentTarget.offsetLeft;
     var pinTop = event.currentTarget.offsetTop;
     var pinX = pinLeft + PIN.WIDTH;
     var pinY = pinTop + PIN.HEIGHT;
 
-    window.map.setAddress(pinX, pinY);
+    setAddress(pinX, pinY);
   }
 
-
-};
-
-
   function pinMouseupHandler() {
-    window.map.setActiveState();
+    setActiveState();
     window.pin.generateAndRenderPins(window.card.adsOfUsers);
     addPinsHandlers();
 
@@ -82,24 +73,34 @@
 
 
   function escPopup(evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      window.map.removePopup();
-    }
+    window.utils.isEscEvent(evt, removePopup)
   }
 
   function clickOnPin(evt) {
     var popup = selectMap.querySelector('.map__card');
 
     if (popup) {
-      window.map.removePopup();
+      removePopup();
     }
 
     var index = evt.currentTarget.dataset.id;
     window.card.renderOfferCard(window.card.adsOfUsers[index]);
 
     var buttonClose = selectMap.querySelector('.popup__close');
-    buttonClose.addEventListener('click', window.map.removePopup);
+    buttonClose.addEventListener('click', removePopup);
     document.addEventListener('keydown', escPopup);
   }
 
+  window.map = {
+    setAddress: setAddress,
+
+    setActiveState: setActiveState,
+
+    setInactiveState: setInactiveState,
+
+    removePopup: removePopup,
+
+    pinMoveHandler: pinMoveHandler
+
+  };
 })();

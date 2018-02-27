@@ -1,6 +1,9 @@
 'use strict';
 
 (function() {
+  var PIN = window.CONFIG.PIN;
+  var MAP = window.CONFIG.MAP;
+
   var selectMap = document.querySelector('.map');
   var selectForm = document.querySelector('.notice__form');
   var mapPinMain = selectMap.querySelector('.map__pin--main');
@@ -14,8 +17,7 @@
   var selectNoticeForm = document.querySelector('.notice__form');
   var selectFormReset = selectNoticeForm.querySelector('.form__reset');
 
-  window.form ={
-    checkGuestsField: function checkGuestsField() {
+  function checkGuestsField() {
     var threeGuests = selectGuests.options[0];
     var twoGuests = selectGuests.options[1];
     var oneGuest = selectGuests.options[2];
@@ -56,7 +58,6 @@
       }
     }
   }
-};
 
   selectType.addEventListener('change', function (event) {
     var minPrice = event.target.querySelector('option[value=' + event.target.value + ']').dataset.min;
@@ -91,21 +92,15 @@
     selectForm.reset();
     window.map.removePopup();
     removePins();
-    window.form.checkGuestsField();
+    checkGuestsField();
     window.map.setInactiveState();
   }
 
-
-  var MAIN_PIN_RADIUS = 31;
-  var PIN_BOTTOM_PART = 22;
-  var MAP_TOP_LIMIT = 100;
-
-
-  var rightMapBorder = selectMap.clientWidth - MAIN_PIN_RADIUS;
-  var leftMapBorder = MAIN_PIN_RADIUS;
+  var rightMapBorder = selectMap.clientWidth - PIN.RADIUS;
+  var leftMapBorder = PIN.RADIUS;
   var mapFilter = selectMap.querySelector('.map__filters-container');
-  var bottomMapBorder = selectMap.clientHeight - MAIN_PIN_RADIUS - PIN_BOTTOM_PART - mapFilter.clientHeight;
-  var topMapBorder = MAP_TOP_LIMIT - MAIN_PIN_RADIUS;
+  var bottomMapBorder = selectMap.clientHeight - PIN.RADIUS - PIN.BOTTOM_PART - mapFilter.clientHeight;
+  var topMapBorder = MAP.LIMIT.TOP - PIN.RADIUS;
 
 
   mapPinMain.addEventListener('mousedown', function (evt) {
@@ -136,8 +131,8 @@
       }
 
       window.map.setAddress(
-        mapPinMain.offsetLeft + MAIN_PIN_RADIUS,
-        mapPinMain.offsetTop + MAIN_PIN_RADIUS + PIN_BOTTOM_PART);
+        mapPinMain.offsetLeft + PIN.RADIUS,
+        mapPinMain.offsetTop + PIN.RADIUS + PIN.BOTTOM_PART);
     };
 
     var onMouseUp = function (upEvt) {
@@ -155,9 +150,12 @@
 
   mapPinMain.addEventListener('mouseup', window.map.pinMoveHandler);
 
-  selectRooms.addEventListener('change', window.form.checkGuestsField);
-  selectSubmit.addEventListener('click', window.form.checkGuestsField);
-  selectForm.addEventListener('submit', setDefaultValueForm);
+  selectRooms.addEventListener('change', checkGuestsField);
+  selectSubmit.addEventListener('click', checkGuestsField);
   selectFormReset.addEventListener('click', setDefaultValueForm);
+
+  window.form ={
+    checkGuestsField: checkGuestsField
+  };
 
 })();
