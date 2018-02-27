@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function () {
   var PIN = window.CONFIG.PIN;
   var MAP = window.CONFIG.MAP;
 
@@ -131,8 +131,8 @@
       }
 
       window.map.setAddress(
-        mapPinMain.offsetLeft + PIN.RADIUS,
-        mapPinMain.offsetTop + PIN.RADIUS + PIN.BOTTOM_PART);
+          mapPinMain.offsetLeft + PIN.RADIUS,
+          mapPinMain.offsetTop + PIN.RADIUS + PIN.BOTTOM_PART);
     };
 
     var onMouseUp = function (upEvt) {
@@ -154,7 +154,7 @@
   selectSubmit.addEventListener('click', checkGuestsField);
   selectFormReset.addEventListener('click', setDefaultValueForm);
 
-  window.form ={
+  window.form = {
     checkGuestsField: checkGuestsField
   };
 

@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function () {
   var utils = window.utils;
   var CONFIG = window.CONFIG;
 
@@ -125,7 +125,7 @@
   window.card = {
     renderOfferCard: renderOfferCard,
     adsOfUsers: generateAds(CONFIG.USERS)
-};
+  };
 
 
 })();

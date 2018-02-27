@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function () {
 
   function generateAndRenderPins(pinsData) {
     var pinsContainer = document.querySelector('.map__pins');
@@ -20,7 +20,7 @@
     pinsContainer.appendChild(pinsFragment);
   }
 
-  window.pin ={
+  window.pin = {
 
     generateAndRenderPins: generateAndRenderPins
   };

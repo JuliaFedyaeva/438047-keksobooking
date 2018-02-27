@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function () {
 
   window.CONFIG = {
     USERS: 8,

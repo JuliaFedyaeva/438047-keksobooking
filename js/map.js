@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function () {
 
   var PIN = window.CONFIG.PIN;
 
@@ -73,7 +73,7 @@
 
 
   function escPopup(evt) {
-    window.utils.isEscEvent(evt, removePopup)
+    window.utils.isEscEvent(evt, removePopup);
   }
 
   function clickOnPin(evt) {
