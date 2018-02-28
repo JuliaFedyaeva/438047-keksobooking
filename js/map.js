@@ -77,13 +77,13 @@
     window.utils.isEscEvent(evt, removePopup);
   }
 
-  function clickOnPin(evt) {
+  function clickOnPin() {
     var popup = selectMap.querySelector('.map__card');
 
     if (popup) {
       removePopup();
     }
-    
+
     window.card.renderOfferCard(window.backend.loadData);
 
     var buttonClose = selectMap.querySelector('.popup__close');
