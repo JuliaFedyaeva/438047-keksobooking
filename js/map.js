@@ -57,7 +57,7 @@
   function pinMouseupHandler() {
     setActiveState();
 
-    window.backend.loadData(window.pin.generateAndRenderPins, window.backend.getErrorRequest);
+    window.backend.loadData(window.pin.generateAndRenderPins, window.backend.showErrorMessage);
     addPinsHandlers();
 
     mapPinMain.removeEventListener('mouseup', pinMouseupHandler);

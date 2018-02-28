@@ -2,16 +2,16 @@
 
 (function () {
 
-  var SAVE = 'https://js.dump.academy/keksobooking';
-  var ONLOAD = 'https://js.dump.academy/keksobooking/data';
+  var URL = 'https://js.dump.academy/keksobooking';
+  var URL_FORM = URL + '/data';
   var TIMEOUT = 10000;
   var STATUS = {
-    ok: 200,
-    badRequest: 400,
-    notFound: 404
+    OK: 200,
+    BAD_REQUEST: 400,
+    NOT_FOUND: 404
   };
 
-  function sendRequestOnServer(metod, url, onSuccess, onError, data) {
+  function sendRequestOnServer(metod, url, data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -27,13 +27,13 @@
     xhr.addEventListener('load', function () {
       var error;
       switch (xhr.status) {
-        case STATUS.ok:
+        case STATUS.OK:
           onSuccess(xhr.response);
           break;
-        case STATUS.badRequest:
+        case STATUS.BAD_REQUEST:
           error = 'Неверный запрос';
           break;
-        case STATUS.notFound:
+        case STATUS.NOT_FOUND:
           error = 'Ничего не найдено';
           break;
         default:
@@ -49,15 +49,15 @@
     xhr.send(data);
   }
 
-  function saveForm(onSuccess, onError, data) {
-    sendRequestOnServer('POST', SAVE, onSuccess, onError, data);
+  function saveForm(data, onSuccess, onError) {
+    sendRequestOnServer('POST', URL, onSuccess, onError, data);
   }
 
   function loadData(onSuccess, onError) {
-    sendRequestOnServer('GET', ONLOAD, onSuccess, onError);
+    sendRequestOnServer('GET', URL_FORM, onSuccess, onError);
   }
 
-  function getErrorRequest(errorMessage) {
+  function showErrorMessage(message) {
     var node = document.createElement('div');
     var button = document.createElement('button');
     document.body.insertAdjacentElement('afterbegin', node);
@@ -67,7 +67,7 @@
     node.style.left = '50%';
     node.style.top = '17vw';
     node.style.fontSize = '30px';
-    node.innerHTML = '<p>' + errorMessage + '</p>';
+    node.innerHTML = '<p>' + message + '</p>';
     node.style.borderRadius = '3px';
     node.style.boxShadow = '0 0 100px #000';
     node.style.transform = 'translate(-50%, -50%)';
@@ -82,7 +82,7 @@
   window.backend = {
     saveForm: saveForm,
     loadData: loadData,
-    getErrorRequest: getErrorRequest
+    showErrorMessage: showErrorMessage
   };
 
 })();

@@ -148,16 +148,17 @@
 
   window.map.setInactiveState();
 
+  selectNoticeForm.addEventListener('submit', function (evt) {
+    window.backend.saveForm(new FormData(selectNoticeForm), selectNoticeForm.reset, window.backend.showErrorMessage);
+    evt.preventDefault();
+  });
+
   mapPinMain.addEventListener('mouseup', window.map.pinMoveHandler);
 
   selectRooms.addEventListener('change', checkGuestsField);
   selectSubmit.addEventListener('click', checkGuestsField);
   selectFormReset.addEventListener('click', setDefaultValueForm);
 
-  selectNoticeForm.addEventListener('submit', function (evt) {
-    window.backend.saveForm(new FormData(selectNoticeForm), selectNoticeForm.reset(), window.backend.getErrorRequest);
-    evt.preventDefault();
-  });
 
   window.form = {
     checkGuestsField: checkGuestsField

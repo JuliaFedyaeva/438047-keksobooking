@@ -89,7 +89,7 @@
 
   window.card = {
     renderOfferCard: renderOfferCard,
-    adsOfUsers: window.backend.loadData(generateAds, window.backend.getErrorRequest)
+    adsOfUsers: window.backend.loadData(generateAds, window.backend.showErrorMessage)
   };
 
 
