@@ -34,11 +34,11 @@
       selectFieldset[i].disabled = false;
     }
     window.backend.loadData(
-       function(data) {
+        function (data) {
           addPinsData(data);
           window.pin.generateAndRenderPins(data);
           addPinsHandlers();
-          },
+        },
         window.backend.showErrorMessage
     );
   }

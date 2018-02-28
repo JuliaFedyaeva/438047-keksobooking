@@ -153,7 +153,7 @@
         function () {
           selectNoticeForm.reset();
           setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
-          },
+        },
         window.backend.showErrorMessage
     );
     evt.preventDefault();
