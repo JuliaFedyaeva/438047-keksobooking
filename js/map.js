@@ -83,8 +83,7 @@
     if (popup) {
       removePopup();
     }
-
-    var index = evt.currentTarget.dataset.id;
+    
     window.card.renderOfferCard(window.backend.loadData);
 
     var buttonClose = selectMap.querySelector('.popup__close');
