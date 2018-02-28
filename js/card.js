@@ -1,18 +1,8 @@
 'use strict';
 
 (function () {
-  var utils = window.utils;
-  var CONFIG = window.CONFIG;
+
   var ads = [];
-
-//  function generateAds() {
-// var ads = [];
-
-//    for (var i = 0; i < CONFIG.USERS; i++) {
-//      ads.push(getAd(i));
-//    }
-//    return ads;
-//  }
 
   function generateAds(data) {
     ads = data;
@@ -20,41 +10,6 @@
       ads[i].id = i;
     }
     window.pin.generateAndRenderPins(ads);
-  }
-
-  function getAvatarURL(id) {
-    if (id < 10) {
-      id = '0' + id;
-    }
-    return 'img/avatars/user' + id + '.png';
-  }
-
-  function getAd(id) {
-    var locationX = utils.getRandomNumber(CONFIG.PIN.X.MIN, CONFIG.PIN.X.MAX);
-    var locationY = utils.getRandomNumber(CONFIG.PIN.Y.MIN, CONFIG.PIN.Y.MAX);
-
-    return {
-      author: {
-        avatar: getAvatarURL(id + 1)
-      },
-      offer: {
-        title: window.utils.getRandomElement(CONFIG.TITLES_ADS),
-        address: (locationX + ', ' + locationY),
-        price: window.utils.getRandomNumber(CONFIG.MIN_PRICE, CONFIG.MAX_PRICE),
-        type: window.utils.getRandomElement(CONFIG.TYPES_OF_ROOMS),
-        rooms: window.utils.getRandomNumber(CONFIG.MIN_QUANTITY_OF_ROOMS, CONFIG.MAX_QUANTITY_OF_ROOMS),
-        guests: window.utils.getRandomNumber(CONFIG.MIN_GUEST, CONFIG.MAX_GUEST),
-        checkin: window.utils.getRandomElement(CONFIG.CHECK_IN_OUT_TIME),
-        checkout: window.utils.getRandomElement(CONFIG.CHECK_IN_OUT_TIME),
-        features: window.utils.getArraySlice(CONFIG.FEATURES),
-        description: '',
-        photos: window.utils.getShuffleArray(CONFIG.PHOTOS)
-      },
-      location: {
-        x: locationX,
-        y: locationY
-      }
-    };
   }
 
   function getRightWordForm(num, wordForms) {
@@ -131,11 +86,10 @@
     containerElement.parentNode.insertBefore(offerCard, containerElement);
   }
 
-  window.backend.loadData(generateAds, window.backend.getErrorRequest);
 
   window.card = {
     renderOfferCard: renderOfferCard,
-    adsOfUsers: generateAds(CONFIG.USERS)
+    adsOfUsers: window.backend.loadData(generateAds, window.backend.getErrorRequest)
   };
 
 

@@ -16,7 +16,6 @@
   var selectSubmit = selectForm.querySelector('.form__submit');
   var selectNoticeForm = document.querySelector('.notice__form');
   var selectFormReset = selectNoticeForm.querySelector('.form__reset');
-  var selectTitle = selectForm.querySelector('#title');
 
   function checkGuestsField() {
     var threeGuests = selectGuests.options[0];
