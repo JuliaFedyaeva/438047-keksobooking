@@ -149,12 +149,12 @@
 
   selectNoticeForm.addEventListener('submit', function (evt) {
     window.backend.sendForm(
-      new FormData(selectNoticeForm),
-      function () {
-        selectNoticeForm.reset();
-        setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
-      },
-      window.backend.showErrorMessage
+        new FormData(selectNoticeForm),
+        function () {
+          selectNoticeForm.reset();
+          setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
+          },
+        window.backend.showErrorMessage
     );
     evt.preventDefault();
   });
@@ -166,5 +166,5 @@
 
     setAddress: setAddress
 
-  }
+  };
 })();

@@ -10,11 +10,11 @@
   var selectFieldset = selectForm.querySelectorAll('fieldset');
   var mapPinMain = selectMap.querySelector('.map__pin--main');
 
-  function getPinsData () {
+  function getPinsData() {
     return pins;
   }
 
-  function addPinsData (data){
+  function addPinsData(data) {
     if (data.length === 0) {
       return;
     }
@@ -34,12 +34,12 @@
       selectFieldset[i].disabled = false;
     }
     window.backend.loadData(
-      function(data) {
-        addPinsData(data);
-        window.pin.generateAndRenderPins(data);
-        addPinsHandlers();
-      },
-      window.backend.showErrorMessage
+       function(data) {
+          addPinsData(data);
+          window.pin.generateAndRenderPins(data);
+          addPinsHandlers();
+          },
+        window.backend.showErrorMessage
     );
   }
 
@@ -83,10 +83,10 @@
   }
 
   function addPinsHandlers() {
-    var pins = selectMap.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var pinsOnMap = selectMap.querySelectorAll('.map__pin:not(.map__pin--main)');
 
-    for (var i = 0; i < pins.length; i++) {
-      pins[i].addEventListener('click', clickOnPin);
+    for (var i = 0; i < pinsOnMap.length; i++) {
+      pinsOnMap[i].addEventListener('click', clickOnPin);
     }
   }
 
