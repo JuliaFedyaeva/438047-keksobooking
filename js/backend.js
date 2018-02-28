@@ -3,7 +3,7 @@
 (function () {
 
   var URL = 'https://js.dump.academy/keksobooking';
-  var URL_FORM = URL + '/data';
+  var URL_DATA = URL + '/data';
   var TIMEOUT = 10000;
   var STATUS = {
     OK: 200,
@@ -11,8 +11,20 @@
     NOT_FOUND: 404
   };
 
-  function sendRequestOnServer(metod, url, data, onSuccess, onError) {
+  var METHODS = {
+    GET: 'GET',
+    POST: 'POST'
+  };
+
+  function sendRequestOnServer(params) {
+    var method = params.method || METHODS.GET;
+    var url = params.url || URL;
+    var onSuccess = params.onSuccess;
+    var onError = params.onError;
+    var data = params.data;
+
     var xhr = new XMLHttpRequest();
+    xhr.timeout = TIMEOUT;
     xhr.responseType = 'json';
 
     xhr.addEventListener('error', function () {
@@ -22,7 +34,6 @@
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = TIMEOUT;
 
     xhr.addEventListener('load', function () {
       var error;
@@ -45,16 +56,26 @@
       }
     });
 
-    xhr.open(metod, url);
+    xhr.open(method, url);
     xhr.send(data);
   }
 
-  function saveForm(data, onSuccess, onError) {
-    sendRequestOnServer('POST', URL, onSuccess, onError, data);
+  function sendForm(data, onSuccess, onError) {
+    sendRequestOnServer({
+      method: METHODS.POST,
+      onSuccess: onSuccess,
+      onError: onError,
+      data: data
+    });
   }
 
   function loadData(onSuccess, onError) {
-    sendRequestOnServer('GET', URL_FORM, onSuccess, onError);
+    sendRequestOnServer({
+      method: METHODS.GET,
+      url: URL_DATA,
+      onSuccess: onSuccess,
+      onError: onError
+    });
   }
 
   function showErrorMessage(message) {
@@ -80,9 +101,12 @@
   }
 
   window.backend = {
-    saveForm: saveForm,
-    loadData: loadData,
-    showErrorMessage: showErrorMessage
-  };
 
+    sendForm: sendForm,
+
+    loadData: loadData,
+
+    showErrorMessage: showErrorMessage
+
+  };
 })();

@@ -2,16 +2,6 @@
 
 (function () {
 
-  var ads = [];
-
-  function generateAds(data) {
-    ads = data;
-    for (var i = 0; i < ads.length; i++) {
-      ads[i].id = i;
-    }
-    window.pin.generateAndRenderPins(ads);
-  }
-
   function getRightWordForm(num, wordForms) {
     var number = Math.abs(num);
     var reminderOfHundred = number % 100;
@@ -86,11 +76,9 @@
     containerElement.parentNode.insertBefore(offerCard, containerElement);
   }
 
-
   window.card = {
-    renderOfferCard: renderOfferCard,
-    adsOfUsers: window.backend.loadData(generateAds, window.backend.showErrorMessage)
+
+    renderOfferCard: renderOfferCard
+
   };
-
-
 })();

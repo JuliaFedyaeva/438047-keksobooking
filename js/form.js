@@ -7,15 +7,19 @@
   var selectMap = document.querySelector('.map');
   var selectForm = document.querySelector('.notice__form');
   var mapPinMain = selectMap.querySelector('.map__pin--main');
+  var selectAddress = selectForm.querySelector('#address');
   var selectCheckIn = selectForm.querySelector('#timein');
   var selectCheckOut = selectForm.querySelector('#timeout');
   var selectType = selectForm.querySelector('#type');
   var selectPrice = selectForm.querySelector('#price');
   var selectRooms = selectForm.querySelector('#room_number');
   var selectGuests = selectForm.querySelector('#capacity');
-  var selectSubmit = selectForm.querySelector('.form__submit');
   var selectNoticeForm = document.querySelector('.notice__form');
   var selectFormReset = selectNoticeForm.querySelector('.form__reset');
+
+  function setAddress(x, y) {
+    selectAddress.value = x + ', ' + y;
+  }
 
   function checkGuestsField() {
     var threeGuests = selectGuests.options[0];
@@ -102,7 +106,6 @@
   var bottomMapBorder = selectMap.clientHeight - PIN.RADIUS - PIN.BOTTOM_PART - mapFilter.clientHeight;
   var topMapBorder = MAP.LIMIT.TOP - PIN.RADIUS;
 
-
   mapPinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -129,8 +132,7 @@
       if (mapPinMain.offsetLeft - shift.x > leftMapBorder && mapPinMain.offsetLeft - shift.x < rightMapBorder) {
         mapPinMain.style.left = mapPinMain.offsetLeft - shift.x + 'px';
       }
-
-      window.map.setAddress(
+      setAddress(
           mapPinMain.offsetLeft + PIN.RADIUS,
           mapPinMain.offsetTop + PIN.RADIUS + PIN.BOTTOM_PART);
     };
@@ -145,23 +147,24 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-
-  window.map.setInactiveState();
-
   selectNoticeForm.addEventListener('submit', function (evt) {
-    window.backend.saveForm(new FormData(selectNoticeForm), selectNoticeForm.reset, window.backend.showErrorMessage);
+    window.backend.sendForm(
+      new FormData(selectNoticeForm),
+      function () {
+        selectNoticeForm.reset();
+        setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
+      },
+      window.backend.showErrorMessage
+    );
     evt.preventDefault();
   });
 
-  mapPinMain.addEventListener('mouseup', window.map.pinMoveHandler);
-
   selectRooms.addEventListener('change', checkGuestsField);
-  selectSubmit.addEventListener('click', checkGuestsField);
   selectFormReset.addEventListener('click', setDefaultValueForm);
 
-
   window.form = {
-    checkGuestsField: checkGuestsField
-  };
 
+    setAddress: setAddress
+
+  }
 })();

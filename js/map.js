@@ -3,15 +3,28 @@
 (function () {
 
   var PIN = window.CONFIG.PIN;
+  var pins = [];
 
   var selectMap = document.querySelector('.map');
   var selectForm = document.querySelector('.notice__form');
   var selectFieldset = selectForm.querySelectorAll('fieldset');
   var mapPinMain = selectMap.querySelector('.map__pin--main');
-  var selectAddress = selectForm.querySelector('#address');
 
-  function setAddress(x, y) {
-    selectAddress.value = x + ', ' + y;
+  function getPinsData () {
+    return pins;
+  }
+
+  function addPinsData (data){
+    if (data.length === 0) {
+      return;
+    }
+    for (var i = 0; i < data.length; i++) {
+      pins.push(data[i]);
+    }
+  }
+
+  function clearPinsData() {
+    pins = [];
   }
 
   function setActiveState() {
@@ -20,6 +33,14 @@
     for (var i = 0; i < selectFieldset.length; i++) {
       selectFieldset[i].disabled = false;
     }
+    window.backend.loadData(
+      function(data) {
+        addPinsData(data);
+        window.pin.generateAndRenderPins(data);
+        addPinsHandlers();
+      },
+      window.backend.showErrorMessage
+    );
   }
 
   function setInactiveState() {
@@ -32,8 +53,9 @@
     }
 
     mapPinMain.removeAttribute('style');
-    setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
+    window.form.setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
     mapPinMain.addEventListener('mouseup', pinMouseupHandler);
+    clearPinsData();
   }
 
   function removePopup() {
@@ -51,17 +73,13 @@
     var pinX = pinLeft + PIN.WIDTH;
     var pinY = pinTop + PIN.HEIGHT;
 
-    setAddress(pinX, pinY);
+    window.form.setAddress(pinX, pinY);
   }
 
   function pinMouseupHandler() {
     setActiveState();
 
-    window.backend.loadData(window.pin.generateAndRenderPins, window.backend.showErrorMessage);
-    addPinsHandlers();
-
     mapPinMain.removeEventListener('mouseup', pinMouseupHandler);
-    window.form.checkGuestsField();
   }
 
   function addPinsHandlers() {
@@ -77,28 +95,30 @@
     window.utils.isEscEvent(evt, removePopup);
   }
 
-  function clickOnPin() {
+  function clickOnPin(event) {
     var popup = selectMap.querySelector('.map__card');
 
     if (popup) {
       removePopup();
     }
 
-    window.card.renderOfferCard(window.backend.loadData);
+    window.card.renderOfferCard(pins[event.currentTarget.dataset.id]);
 
     var buttonClose = selectMap.querySelector('.popup__close');
     buttonClose.addEventListener('click', removePopup);
     document.addEventListener('keydown', escPopup);
   }
 
+  setInactiveState();
+  mapPinMain.addEventListener('mouseup', pinMoveHandler);
+
   window.map = {
-    setAddress: setAddress,
 
     setInactiveState: setInactiveState,
 
     removePopup: removePopup,
 
-    pinMoveHandler: pinMoveHandler
+    getPinsData: getPinsData
 
   };
 })();
