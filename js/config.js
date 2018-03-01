@@ -36,7 +36,8 @@
     },
 
     KEY_CODES: {
-      ESC: 27
+      ESC: 27,
+      ENTER: 13
     },
 
     TITLES_ADS: [

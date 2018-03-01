@@ -9,6 +9,7 @@
   var selectForm = document.querySelector('.notice__form');
   var selectFieldset = selectForm.querySelectorAll('fieldset');
   var mapPinMain = selectMap.querySelector('.map__pin--main');
+  var mapFilter = selectMap.querySelector('.map__filters-container');
 
   function getPinsData() {
     return pins;
@@ -41,6 +42,7 @@
         },
         window.backend.showErrorMessage
     );
+    mapFilter.addEventListener('change', onFilterInputChange);
   }
 
   function setInactiveState() {
@@ -56,7 +58,10 @@
     window.form.setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
     mapPinMain.addEventListener('mouseup', pinMouseupHandler);
     clearPinsData();
+    mapFilter.removeEventListener('change', onFilterInputChange);
   }
+
+
 
   function removePopup() {
     var card = selectMap.querySelector('.map__card');
@@ -95,6 +100,13 @@
     window.utils.isEscEvent(evt, removePopup);
   }
 
+  function pressEnter(evt) {
+    if (evt.keyCode === window.CONFIG.KEY_CODES.ENTER) {
+      setActiveState();
+    }
+    mapPinMain.removeEventListener('keydown', pressEnter);
+  }
+
   function clickOnPin(event) {
     var popup = selectMap.querySelector('.map__card');
 
@@ -109,8 +121,24 @@
     document.addEventListener('keydown', escPopup);
   }
 
+
+  function filtredPins() {
+    removePopup();
+    clearPinsData();
+
+    pins = window.filter.filteredData();
+    addPinsData(pins);
+  }
+
+  function onFilterInputChange(evt) {
+    if (evt.target.tagName === 'INPUT' || evt.target.tagName === 'SELECT') {
+      window.debounce.debounce(filtredPins);
+    }
+  }
+
   setInactiveState();
   mapPinMain.addEventListener('mouseup', pinMoveHandler);
+  mapPinMain.addEventListener('keydown', pressEnter);
 
   window.map = {
 
@@ -118,7 +146,9 @@
 
     removePopup: removePopup,
 
-    getPinsData: getPinsData
+    getPinsData: getPinsData,
+
+    pins: pins
 
   };
 })();
