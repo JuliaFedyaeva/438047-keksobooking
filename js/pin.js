@@ -2,7 +2,8 @@
 
 (function () {
 
-  function generateAndRenderPins(pinsData) {
+  function generateAndRenderPins() {
+    var pinsData = window.map.getPinsData();
     var pinsContainer = document.querySelector('.map__pins');
     var pinsFragment = document.createDocumentFragment();
     var pinsTemplate = document.querySelector('template').content.querySelector('.map__pin');
@@ -23,7 +24,7 @@
   window.pin = {
 
     generateAndRenderPins: generateAndRenderPins
-  };
 
+  };
 })();
 
