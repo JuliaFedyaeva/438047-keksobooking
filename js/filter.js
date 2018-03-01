@@ -11,11 +11,11 @@
 
       'middle': function (price) {
         return price > 10000 && price < 50000;
-        },
+      },
 
-        'low': function (price) {
+      'low': function (price) {
         return price < 10000;
-        },
+      },
 
       'high': function (price) {
         return price > 50000;
@@ -56,18 +56,18 @@
       if (item.checked) {
         inputsChecked.push(valueInput);
       }
-      }, 0);
+    }, 0);
     return inputsChecked;
   }
 
   function getFilteredArray(data, inputsChecked) {
     data.filter(filterHouse)
-      .filter(filterPrice)
-      .filter(filterRooms)
-      .filter(filterGuest)
-      .filter(function (elem) {
-      return filterFeatures(elem, inputsChecked);
-      });
+        .filter(filterPrice)
+        .filter(filterRooms)
+        .filter(filterGuest)
+        .filter(function (elem) {
+          return filterFeatures(elem, inputsChecked);
+        });
   }
 
   function filteredData() {
