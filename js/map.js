@@ -61,8 +61,6 @@
     mapFilter.removeEventListener('change', onFilterInputChange);
   }
 
-
-
   function removePopup() {
     var card = selectMap.querySelector('.map__card');
 
@@ -95,7 +93,6 @@
     }
   }
 
-
   function escPopup(evt) {
     window.utils.isEscEvent(evt, removePopup);
   }
@@ -120,7 +117,6 @@
     buttonClose.addEventListener('click', removePopup);
     document.addEventListener('keydown', escPopup);
   }
-
 
   function filtredPins() {
     removePopup();
