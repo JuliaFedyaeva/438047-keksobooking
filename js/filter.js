@@ -40,44 +40,49 @@
     return guestsOnTheHouse.value === 'any' ? true : (elem.offer.guests + '') === guestsOnTheHouse.value;
   }
 
-  function filterFeatures(elem, inputsChecked) {
+  function filterFeatures(elem, featuresChecked) {
     var features = elem.offer.features;
-    inputsChecked.every(function (elemFeatures) {
-      return features.indexOf(elemFeatures) !== -1;
+
+    if (features.length < featuresChecked.length) {
+      return false;
+    }
+    return featuresChecked.every(function (feature) {
+      return features.indexOf(features) !== -1;
     });
   }
 
   function getFeaturesChecked() {
     var inputsFeatures = document.querySelectorAll('#housing-features input');
-    var inputsFeaturesArray = Array.prototype.slice.call(inputsFeatures);
-    var inputsChecked = [];
-    inputsFeaturesArray.reduce(function (previousData, item) {
-      var valueInput = item.value;
-      if (item.checked) {
-        inputsChecked.push(valueInput);
-      }
-    }, 0);
-    return inputsChecked;
+    return Array.prototype
+      .reduce.call(inputsFeatures, function(accumulator, input) {
+        if (input.checked) {
+          accumulator.push(input.value);
+          return accumulator;
+        }
+        return accumulator;
+      }, []);
   }
 
-  function getFilteredArray(data, inputsChecked) {
-    data.filter(filterHouse)
-        .filter(filterPrice)
-        .filter(filterRooms)
-        .filter(filterGuest)
-        .filter(function (elem) {
-          return filterFeatures(elem, inputsChecked);
-        });
+  function getFiltered() {
+    var pinsData = window.pinsData.getAll();
+    var featuresChecked = getFeaturesChecked();
+
+    return pinsData
+      .filter(filterHouse)
+      .filter(filterPrice)
+      .filter(filterRooms)
+      .filter(filterGuest)
+      .filter(function (elem) {
+        if (featuresChecked.length === 0) {
+          return elem;
+        }
+        return filterFeatures(elem, featuresChecked);
+      });
+    
   }
 
-  function filteredData() {
-    var advertsData = window.map.pins.slice();
-    var inputsFeaturesChecked = getFeaturesChecked();
-    getFilteredArray(advertsData, inputsFeaturesChecked);
-  }
 
   window.filter = {
-
-    filteredData: filteredData
+    getFiltered: getFiltered
   };
 })();

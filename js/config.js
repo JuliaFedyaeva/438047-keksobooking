@@ -3,7 +3,7 @@
 (function () {
 
   window.CONFIG = {
-    USERS: 8,
+    MAX_PINS: 5,
 
     MIN_GUEST: 1,
     MAX_GUEST: 20,

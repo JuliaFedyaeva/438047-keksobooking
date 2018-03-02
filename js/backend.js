@@ -20,7 +20,7 @@
     var method = params.method || METHODS.GET;
     var url = params.url || URL;
     var onSuccess = params.onSuccess;
-    var onError = params.onError;
+    var onError = params.onError || window.message.showErrorMessage;
     var data = params.data;
 
     var xhr = new XMLHttpRequest();

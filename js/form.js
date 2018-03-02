@@ -1,10 +1,13 @@
 'use strict';
 
+
+
 (function () {
+
+  var selectMap = document.querySelector('.map');
   var PIN = window.CONFIG.PIN;
   var MAP = window.CONFIG.MAP;
 
-  var selectMap = document.querySelector('.map');
   var selectForm = document.querySelector('.notice__form');
   var mapPinMain = selectMap.querySelector('.map__pin--main');
   var selectAddress = selectForm.querySelector('#address');
@@ -78,25 +81,11 @@
     selectCheckIn.value = selectCheckOut.value;
   });
 
-
-  function removePins() {
-    var pins = selectMap.querySelectorAll('.map__pin:not(.map__pin--main)');
-
-    if (pins.length === 0) {
-      return;
-    }
-
-    for (var i = 0; i < pins.length; i++) {
-      pins[i].remove();
-    }
-  }
-
-
   function setDefaultValueForm() {
     selectForm.reset();
-    window.map.removePopup();
-    removePins();
     checkGuestsField();
+    window.map.removePopup();
+    window.pin.removeAll();
     window.map.setInactiveState();
   }
 
