@@ -1,10 +1,7 @@
 'use strict';
 
 (function () {
-  var selectMap = document.querySelector('.map');
-
   var selectForm = document.querySelector('.notice__form');
-  var mapPinMain = selectMap.querySelector('.map__pin--main');
   var selectAddress = selectForm.querySelector('#address');
   var selectCheckIn = selectForm.querySelector('#timein');
   var selectCheckOut = selectForm.querySelector('#timeout');
