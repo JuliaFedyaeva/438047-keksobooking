@@ -73,7 +73,7 @@
         .filter(filterGuest)
         .filter(function (elem) {
           if (featuresChecked.length === 0) {
-          return elem;
+            return elem;
           }
           return filterFeatures(elem, featuresChecked);
         })
