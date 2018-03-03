@@ -85,7 +85,6 @@
   }
 
   function succsessSendFormHandler() {
-    setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
     setDefaultValueForm();
   }
 
