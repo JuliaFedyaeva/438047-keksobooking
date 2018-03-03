@@ -88,6 +88,7 @@
     selectNoticeForm.reset();
     checkGuestsField();
     setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
+    setDefaultValueForm();
   }
 
   selectNoticeForm.addEventListener('submit', function (evt) {
@@ -101,8 +102,6 @@
   selectFormReset.addEventListener('click', setDefaultValueForm);
 
   window.form = {
-
     setAddress: setAddress
-
   };
 })();
