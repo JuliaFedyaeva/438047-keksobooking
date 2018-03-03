@@ -85,8 +85,6 @@
   }
 
   function succsessSendFormHandler() {
-    selectNoticeForm.reset();
-    checkGuestsField();
     setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
     setDefaultValueForm();
   }
