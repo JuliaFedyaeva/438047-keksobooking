@@ -15,14 +15,8 @@
       },
       HEIGHT: 75,
       WIDTH: 56,
-      RADIUS: 31,
-      BOTTOM_PART: 22
-    },
-
-    MAP: {
-      LIMIT: {
-        TOP: 100
-      }
+      RADIUS: 32,
+      BOTTOM_PART: 18
     }
   };
 })();

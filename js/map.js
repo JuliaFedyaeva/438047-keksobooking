@@ -2,7 +2,6 @@
 
 (function () {
   var PIN = window.CONFIG.PIN;
-  var MAP = window.CONFIG.MAP;
   var MAX_PINS = window.CONFIG.MAX_PINS;
 
   var selectMap = document.querySelector('.map');
@@ -10,11 +9,6 @@
   var selectFieldset = selectForm.querySelectorAll('fieldset');
   var mapPinMain = selectMap.querySelector('.map__pin--main');
   var mapFilter = selectMap.querySelector('.map__filters-container');
-
-  var rightMapBorder = selectMap.clientWidth - PIN.RADIUS;
-  var leftMapBorder = PIN.RADIUS;
-  var bottomMapBorder = selectMap.clientHeight - PIN.RADIUS - PIN.BOTTOM_PART - mapFilter.clientHeight;
-  var topMapBorder = MAP.LIMIT.TOP - PIN.RADIUS;
 
   function sucsessLoadHandler(data) {
     window.pinsData.add(data);
@@ -72,48 +66,57 @@
     }
   }
 
-  mapPinMain.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
+  function mapPinMainMouseDownHandler(event) {
+    var topMapBorder = PIN.RADIUS * 2;
+    var leftMapBorder = PIN.RADIUS;
+    var rightMapBorder = selectMap.clientWidth - PIN.RADIUS;
+    var bottomMapBorder = selectMap.clientHeight - mapFilter.clientHeight - PIN.BOTTOM_PART;
 
-    var startCoords = {
-      x: evt.target.parentElement.clientX,
-      y: evt.target.parentElement.clientY
-    };
+    (function (evt) {
+      evt.preventDefault();
 
-    var onMouseMove = function (moveEvt) {
-      var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
+      var startCoords = {
+        x: evt.target.parentElement.clientX,
+        y: evt.target.parentElement.clientY
       };
 
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
+      var onMouseMove = function (moveEvt) {
+        var shift = {
+          x: startCoords.x - moveEvt.clientX,
+          y: startCoords.y - moveEvt.clientY
+        };
+
+        startCoords = {
+          x: moveEvt.clientX,
+          y: moveEvt.clientY
+        };
+
+        if (mapPinMain.offsetTop - shift.y < bottomMapBorder && mapPinMain.offsetTop - shift.y > topMapBorder) {
+          mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
+        }
+
+        if (mapPinMain.offsetLeft - shift.x > leftMapBorder && mapPinMain.offsetLeft - shift.x < rightMapBorder) {
+          mapPinMain.style.left = mapPinMain.offsetLeft - shift.x + 'px';
+        }
+
+        window.form.setAddress(
+            mapPinMain.offsetLeft,
+            mapPinMain.offsetTop + PIN.BOTTOM_PART
+        );
       };
 
-      if (mapPinMain.offsetTop - shift.y < bottomMapBorder && mapPinMain.offsetTop - shift.y > topMapBorder) {
-        mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
-      }
+      var onMouseUp = function (upEvt) {
+        upEvt.preventDefault();
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+      };
 
-      if (mapPinMain.offsetLeft - shift.x > leftMapBorder && mapPinMain.offsetLeft - shift.x < rightMapBorder) {
-        mapPinMain.style.left = mapPinMain.offsetLeft - shift.x + 'px';
-      }
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    })(event);
+  }
 
-      window.form.setAddress(
-          mapPinMain.offsetLeft + PIN.RADIUS,
-          mapPinMain.offsetTop + PIN.RADIUS + PIN.BOTTOM_PART
-      );
-    };
-
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  });
+  mapPinMain.addEventListener('mousedown', mapPinMainMouseDownHandler);
 
   setInactiveState();
 
