@@ -8,9 +8,8 @@
 
   function checkPrice(valueOfPrice, valueOfInput) {
     var rangeOfPrice = {
-
       'middle': function (price) {
-        return price > 10000 && price < 50000;
+        return price >= 10000 && price <= 50000;
       },
 
       'low': function (price) {
@@ -33,11 +32,11 @@
   }
 
   function filterRooms(elem) {
-    return roomsInTheHouse.value === 'any' ? true : (elem.offer.rooms + '') === roomsInTheHouse.value;
+    return roomsInTheHouse.value === 'any' ? true : elem.offer.rooms === parseInt(roomsInTheHouse.value, 10);
   }
 
   function filterGuest(elem) {
-    return guestsOnTheHouse.value === 'any' ? true : (elem.offer.guests + '') === guestsOnTheHouse.value;
+    return guestsOnTheHouse.value === 'any' ? true : elem.offer.guests === parseInt(guestsOnTheHouse.value, 10);
   }
 
   function filterFeatures(elem, featuresChecked) {
@@ -47,7 +46,7 @@
       return false;
     }
     return featuresChecked.every(function (feature) {
-      return features.indexOf(features) !== -1;
+      return features.indexOf(feature) !== -1;
     });
   }
 
@@ -77,10 +76,9 @@
           return elem;
         }
         return filterFeatures(elem, featuresChecked);
-      });
-    
+      })
+    .slice(0, window.CONFIG.MAX_PINS);
   }
-
 
   window.filter = {
     getFiltered: getFiltered

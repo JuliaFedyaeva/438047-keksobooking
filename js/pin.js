@@ -16,13 +16,13 @@
       pin.style.top = pinsData[i].location.y + 'px';
       pinImg.src = pinsData[i].author.avatar;
       pin.dataset.id = pinsData[i].id;
-      pin.addEventListener('click', clickOnPin);
+      pin.addEventListener('click', clickHandler);
       pinsFragment.appendChild(pin);
     }
     pinsContainer.appendChild(pinsFragment);
   }
 
-  function clickOnPin(event) {
+  function clickHandler(event) {
     var popup = selectMap.querySelector('.map__card');
 
     if (popup) {
@@ -46,6 +46,7 @@
     }
 
     for (var i = 0; i < pins.length; i++) {
+      pins[i].removeEventListener('click', clickHandler);
       pins[i].remove();
     }
   }

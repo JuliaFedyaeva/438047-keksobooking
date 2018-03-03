@@ -28,9 +28,10 @@
     }
     var lastIndex = getLength();
 
-    for(var i = 0; i < data.length; i++)
+    for(var i = 0; i < data.length; i++) {
       data[i].id = lastIndex + i;
       pinsData.push(data[i]);
+    }
   }
 
   function clear() {
@@ -43,5 +44,5 @@
     getAll: getAll,
     getTo: getTo,
     clear: clear
-  }
+  };
 })();

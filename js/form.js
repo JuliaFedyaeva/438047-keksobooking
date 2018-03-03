@@ -1,12 +1,7 @@
 'use strict';
 
-
-
 (function () {
-
   var selectMap = document.querySelector('.map');
-  var PIN = window.CONFIG.PIN;
-  var MAP = window.CONFIG.MAP;
 
   var selectForm = document.querySelector('.notice__form');
   var mapPinMain = selectMap.querySelector('.map__pin--main');
@@ -84,68 +79,22 @@
   function setDefaultValueForm() {
     selectForm.reset();
     checkGuestsField();
-    window.map.removePopup();
+    window.card.remove();
     window.pin.removeAll();
     window.map.setInactiveState();
   }
 
-  var rightMapBorder = selectMap.clientWidth - PIN.RADIUS;
-  var leftMapBorder = PIN.RADIUS;
-  var mapFilter = selectMap.querySelector('.map__filters-container');
-  var bottomMapBorder = selectMap.clientHeight - PIN.RADIUS - PIN.BOTTOM_PART - mapFilter.clientHeight;
-  var topMapBorder = MAP.LIMIT.TOP - PIN.RADIUS;
-
-  mapPinMain.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
-
-    var startCoords = {
-      x: evt.target.parentElement.clientX,
-      y: evt.target.parentElement.clientY
-    };
-
-    var onMouseMove = function (moveEvt) {
-      var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
-      };
-
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
-      };
-
-      if (mapPinMain.offsetTop - shift.y < bottomMapBorder && mapPinMain.offsetTop - shift.y > topMapBorder) {
-        mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
-      }
-
-      if (mapPinMain.offsetLeft - shift.x > leftMapBorder && mapPinMain.offsetLeft - shift.x < rightMapBorder) {
-        mapPinMain.style.left = mapPinMain.offsetLeft - shift.x + 'px';
-      }
-      setAddress(
-          mapPinMain.offsetLeft + PIN.RADIUS,
-          mapPinMain.offsetTop + PIN.RADIUS + PIN.BOTTOM_PART);
-    };
-
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  });
+  function succsessSendFormHandler() {
+    selectNoticeForm.reset();
+    checkGuestsField();
+    setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
+  }
 
   selectNoticeForm.addEventListener('submit', function (evt) {
-    window.backend.sendForm(
-        new FormData(selectNoticeForm),
-        function () {
-          selectNoticeForm.reset();
-          setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
-        },
-        window.backend.showErrorMessage
-    );
     evt.preventDefault();
+
+    var formData = new FormData(selectNoticeForm);
+    window.backend.sendForm(formData, succsessSendFormHandler);
   });
 
   selectRooms.addEventListener('change', checkGuestsField);
