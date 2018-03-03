@@ -53,13 +53,13 @@
   function getFeaturesChecked() {
     var inputsFeatures = document.querySelectorAll('#housing-features input');
     return Array.prototype
-      .reduce.call(inputsFeatures, function(accumulator, input) {
-        if (input.checked) {
-          accumulator.push(input.value);
+        .reduce.call(inputsFeatures, function (accumulator, input) {
+          if (input.checked) {
+            accumulator.push(input.value);
+            return accumulator;
+          }
           return accumulator;
-        }
-        return accumulator;
-      }, []);
+        }, []);
   }
 
   function getFiltered() {
@@ -67,17 +67,17 @@
     var featuresChecked = getFeaturesChecked();
 
     return pinsData
-      .filter(filterHouse)
-      .filter(filterPrice)
-      .filter(filterRooms)
-      .filter(filterGuest)
-      .filter(function (elem) {
-        if (featuresChecked.length === 0) {
+        .filter(filterHouse)
+        .filter(filterPrice)
+        .filter(filterRooms)
+        .filter(filterGuest)
+        .filter(function (elem) {
+          if (featuresChecked.length === 0) {
           return elem;
-        }
-        return filterFeatures(elem, featuresChecked);
-      })
-    .slice(0, window.CONFIG.MAX_PINS);
+          }
+          return filterFeatures(elem, featuresChecked);
+        })
+        .slice(0, window.CONFIG.MAX_PINS);
   }
 
   window.filter = {

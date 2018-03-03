@@ -18,7 +18,7 @@
     return pinsData.slice(0, index);
   }
 
-  function getLength () {
+  function getLength() {
     return pinsData.length;
   }
 
@@ -28,14 +28,14 @@
     }
     var lastIndex = getLength();
 
-    for(var i = 0; i < data.length; i++) {
+    for (var i = 0; i < data.length; i++) {
       data[i].id = lastIndex + i;
       pinsData.push(data[i]);
     }
   }
 
   function clear() {
-      pinsData = [];
+    pinsData = [];
   }
 
   window.pinsData = {

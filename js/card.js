@@ -9,7 +9,7 @@
 
   var WORD_FORMS = {
     ROOM: ['комната', 'комнаты', 'комнат'],
-    GUEST:['гостя', 'гостей', 'гостей']
+    GUEST: ['гостя', 'гостей', 'гостей']
   };
 
   var selectMap = document.querySelector('.map');

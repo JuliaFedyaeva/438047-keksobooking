@@ -63,7 +63,7 @@
 
   function onFilterInputChange(evt) {
     if (evt.target.tagName === 'INPUT' || evt.target.tagName === 'SELECT') {
-      window.debounce(function() {
+      window.debounce(function () {
         var filteredPinsData = window.filter.getFiltered();
         window.card.remove();
         window.pin.removeAll();
@@ -100,8 +100,8 @@
       }
 
       window.form.setAddress(
-        mapPinMain.offsetLeft + PIN.RADIUS,
-        mapPinMain.offsetTop + PIN.RADIUS + PIN.BOTTOM_PART
+          mapPinMain.offsetLeft + PIN.RADIUS,
+          mapPinMain.offsetTop + PIN.RADIUS + PIN.BOTTOM_PART
       );
     };
 
