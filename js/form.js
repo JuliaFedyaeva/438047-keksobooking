@@ -79,10 +79,13 @@
     window.card.popupRemoveHandler();
     window.pin.removeAll();
     window.map.setInactiveState();
+    window.dragndrop.removeAvatar();
+    window.dragndrop.removeHousePhoto();
   }
 
   function succsessSendFormHandler() {
     defaultValueFormHandler();
+
   }
 
   selectNoticeForm.addEventListener('submit', function (evt) {
