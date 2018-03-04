@@ -16,7 +16,7 @@
     selectAddress.value = x + ', ' + y;
   }
 
-  function checkGuestsField() {
+  function guestsFieldCheckHandler() {
     var threeGuests = selectGuests.options[0];
     var twoGuests = selectGuests.options[1];
     var oneGuest = selectGuests.options[2];
@@ -73,16 +73,16 @@
     selectCheckIn.value = selectCheckOut.value;
   });
 
-  function setDefaultValueForm() {
+  function defaultValueFormHandler() {
     selectForm.reset();
-    checkGuestsField();
-    window.card.remove();
+    guestsFieldCheckHandler();
+    window.card.popupRemoveHandler();
     window.pin.removeAll();
     window.map.setInactiveState();
   }
 
   function succsessSendFormHandler() {
-    setDefaultValueForm();
+    defaultValueFormHandler();
   }
 
   selectNoticeForm.addEventListener('submit', function (evt) {
@@ -92,8 +92,8 @@
     window.backend.sendForm(formData, succsessSendFormHandler);
   });
 
-  selectRooms.addEventListener('change', checkGuestsField);
-  selectFormReset.addEventListener('click', setDefaultValueForm);
+  selectRooms.addEventListener('change', guestsFieldCheckHandler);
+  selectFormReset.addEventListener('click', defaultValueFormHandler);
 
   window.form = {
     setAddress: setAddress

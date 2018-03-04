@@ -13,7 +13,7 @@
   function sucsessLoadHandler(data) {
     window.pinsData.add(data);
     var filteredPins = window.pinsData.getTo(MAX_PINS);
-    window.pin.generateAndRenderPins(filteredPins);
+    window.pin.generateAndRender(filteredPins);
   }
 
   function setActiveState() {
@@ -25,7 +25,7 @@
     }
 
     window.backend.loadOffers(sucsessLoadHandler);
-    mapFilter.addEventListener('change', onFilterInputChange);
+    mapFilter.addEventListener('change', filterInputChangeHandler);
     mapPinMain.removeEventListener('keydown', mainPinEnterHandler);
   }
 
@@ -40,28 +40,28 @@
     mapPinMain.removeAttribute('style');
     window.form.setAddress(mapPinMain.offsetLeft, mapPinMain.offsetTop);
     window.pinsData.clear();
-    mapPinMain.addEventListener('mouseup', pinMouseupHandler);
-    mapFilter.removeEventListener('change', onFilterInputChange);
+    mapPinMain.addEventListener('mouseup', pinMouseUpHandler);
+    mapFilter.removeEventListener('change', filterInputChangeHandler);
     mapPinMain.addEventListener('keydown', mainPinEnterHandler);
   }
 
-  function pinMouseupHandler() {
+  function pinMouseUpHandler() {
     setActiveState();
 
-    mapPinMain.removeEventListener('mouseup', pinMouseupHandler);
+    mapPinMain.removeEventListener('mouseup', pinMouseUpHandler);
   }
 
   function mainPinEnterHandler(event) {
     window.utils.isEnterEvent(event, setActiveState);
   }
 
-  function onFilterInputChange(evt) {
+  function filterInputChangeHandler(evt) {
     if (evt.target.tagName === 'INPUT' || evt.target.tagName === 'SELECT') {
       window.debounce(function () {
         var filteredPinsData = window.filter.getFiltered();
-        window.card.remove();
+        window.card.popupRemoveHandler();
         window.pin.removeAll();
-        window.pin.generateAndRenderPins(filteredPinsData);
+        window.pin.generateAndRender(filteredPinsData);
       });
     }
   }
@@ -80,7 +80,7 @@
         y: evt.target.parentElement.clientY
       };
 
-      var onMouseMove = function (moveEvt) {
+      function mouseMoveHandler(moveEvt) {
         var shift = {
           x: startCoords.x - moveEvt.clientX,
           y: startCoords.y - moveEvt.clientY
@@ -103,16 +103,16 @@
             mapPinMain.offsetLeft,
             mapPinMain.offsetTop + PIN.BOTTOM_PART
         );
-      };
+      }
 
-      var onMouseUp = function (upEvt) {
+      function mouseUpHandler(upEvt) {
         upEvt.preventDefault();
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
-      };
+        document.removeEventListener('mousemove', mouseMoveHandler);
+        document.removeEventListener('mouseup', mouseUpHandler);
+      }
 
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
+      document.addEventListener('mousemove', mouseMoveHandler);
+      document.addEventListener('mouseup', mouseUpHandler);
     })(event);
   }
 

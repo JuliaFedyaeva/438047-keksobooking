@@ -14,19 +14,19 @@
 
   var selectMap = document.querySelector('.map');
 
-  function remove() {
+  function popupRemoveHandler() {
     var card = selectMap.querySelector('.map__card');
 
     if (card) {
       var buttonClose = selectMap.querySelector('.popup__close');
-      buttonClose.removeEventListener('click', remove);
-      document.removeEventListener('keydown', removeByEsc);
+      buttonClose.removeEventListener('click', popupRemoveHandler);
+      document.removeEventListener('keydown', popupRemoveByEscHandler);
       selectMap.removeChild(card);
     }
   }
 
-  function removeByEsc(evt) {
-    window.utils.isEscEvent(evt, remove);
+  function popupRemoveByEscHandler(evt) {
+    window.utils.isEscEvent(evt, popupRemoveHandler);
   }
 
   function getRightWordForm(num, wordForms) {
@@ -45,10 +45,10 @@
 
   function renderApartmentPhoto(container, pictures) {
     var picturesFragment = document.createDocumentFragment();
-    var picturesElement = container.querySelector('li');
+    var picturesContainer = container.querySelector('li');
 
     for (var i = 0; i < pictures.length; i++) {
-      var apartmentPicture = picturesElement.cloneNode(true);
+      var apartmentPicture = picturesContainer.cloneNode(true);
       apartmentPicture.querySelector('img').src = pictures[i];
       apartmentPicture.querySelector('img').width = 50;
       picturesFragment.appendChild(apartmentPicture);
@@ -60,15 +60,15 @@
     var liFragment = document.createDocumentFragment();
 
     for (var i = 0; i < features.length; i++) {
-      var featureElement = document.createElement('li');
-      featureElement.className = 'feature feature--' + features[i];
-      liFragment.appendChild(featureElement);
+      var featuresContainer = document.createElement('li');
+      featuresContainer.className = 'feature feature--' + features[i];
+      liFragment.appendChild(featuresContainer);
     }
     return container.appendChild(liFragment);
   }
 
   function render(data) {
-    var containerElement = document.querySelector('.map__filters-container');
+    var container = document.querySelector('.map__filters-container');
     var cardTemplate = document.querySelector('template').content.querySelector('.map__card');
     var offerCard = cardTemplate.cloneNode(true);
 
@@ -92,12 +92,12 @@
     renderFeatures(featuresContainer, featuresList);
     renderApartmentPhoto(picturesContainer, data.offer.photos);
 
-    containerElement.parentNode.insertBefore(offerCard, containerElement);
+    container.parentNode.insertBefore(offerCard, container);
   }
 
   window.card = {
-    removeByEsc: removeByEsc,
-    remove: remove,
+    popupRemoveByEscHandler: popupRemoveByEscHandler,
+    popupRemoveHandler: popupRemoveHandler,
     render: render
   };
 })();
