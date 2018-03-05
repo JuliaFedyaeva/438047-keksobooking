@@ -152,10 +152,10 @@
       <fieldset class="form__element">
         <label for="capacity">Количество мест</label>
         <select id="capacity" name="capacity">
-          <option value="3">для 3 гостей</option>
-          <option value="2">для 2 гостей</option>
+          <option value="3" disabled>для 3 гостей</option>
+          <option value="2" disabled>для 2 гостей</option>
           <option value="1" selected>для 1 гостя</option>
-          <option value="0">не для гостей</option>
+          <option value="0" disabled>не для гостей</option>
         </select>
       </fieldset>
 
@@ -189,7 +189,7 @@
       <fieldset class="form__element form__element--wide">
         <label>Фотографии жилья</label>
         <div class="form__photo-container">
-          <div class="upload">
+          <div class="upload upload__photo">
             <input type="file" id="images">
             <label for="images" class="drop-zone">Загрузите или&nbsp;перетащите сюда фото</label>
           </div>
@@ -247,7 +247,6 @@
 
 <script src="js/backend.js"></script>
 <script src="js/message.js"></script>
-<script src="js/dragndrop.js"></script>
 <script src="js/pins-data.js"></script>
 <script src="js/debounce.js"></script>
 <script src="js/utils.js"></script>
